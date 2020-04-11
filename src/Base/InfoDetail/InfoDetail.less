@@ -1,0 +1,48 @@
+.infoDetail-wrap {
+    min-width: 300px;
+    max-width: 400px;
+    height: 150px;
+    text-align: left;
+
+    .infoDetail-img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .infoDetail-right {
+        display: inline-block;
+        height: 100%;
+        padding: 0 10px;
+        vertical-align: middle;
+        position: relative;
+
+        .infoDetail-name {
+            max-width: 200px;
+            font-size: 20px;
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            cursor: default;
+        }
+
+        .infoDetail-text {
+            max-width: 200px;
+            margin-top: 10px;
+            font-size: 12px;
+            display: -webkit-box;
+            overflow: hidden;
+            white-space: normal !important;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical
+        }
+
+        .infoDetail-btn {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+    }
+}

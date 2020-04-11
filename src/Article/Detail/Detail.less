@@ -1,0 +1,191 @@
+.detail {
+    padding: 20px 10px;
+    height: ~"calc(100% - 80px)";
+    overflow: auto;
+
+    .ant-back-top-content {
+        background-color: rgba(0, 0, 0, 0.25);
+    }
+
+    .ant-skeleton {
+        background: #fff;
+        padding: 10px;
+    }
+
+    .detail-main {
+        background: #fff;
+        border-radius: 5px;
+        padding: 20px;
+        min-height: 300px;
+
+        p {
+            font-size: 14px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 3px 5px;
+        }
+
+        a {
+            color: #000;
+        }
+
+        .detail-title {
+            font-size: 27px;
+            font-weight: bold;
+            color: #0378bb;
+            border-bottom: 1px solid #5ea2d6;
+            border-left: 12px solid #3d97cb;
+            padding-left: 5px;
+            width: 100%;
+            word-wrap: break-word;
+            margin-bottom: 20px;
+        }
+
+        .detail-content {
+            padding: 0 0 10px 0;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .detail-msg {
+            text-align: right;
+
+            &-createTime {
+                margin-right: 10px;
+            }
+
+            &-updateTime {
+                margin-right: 10px;
+            }
+        }
+
+        .detail-comments {
+            margin-top: 50px;
+            box-shadow: 10px 10px 10px #ddd;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px 20px;
+
+            .ant-empty {
+                padding: 10px;
+            }
+
+            .detail-comments-spin {
+                font-weight: bold;
+                border-bottom: 1px solid #333;
+                font-size: 14px;
+                padding: 0 0 10px 0;
+            }
+
+            .detail-comments-item {
+                position: relative;
+
+                .detail-comments-title {
+                    padding: 0 0 10px 0;
+                    position: relative;
+
+                    .detail-comments-icon {
+                        position: absolute;
+                        width: 16px;
+                        height: 16px;
+                    }
+
+                    .detail-comments-img {
+                        position: absolute;
+                        top: 1px;
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        cursor: pointer;
+                    }
+
+                    .detail-comments-title-user {
+                        font-size: 12px;
+                        color: #666;
+                        font-weight: 600;
+                        margin-left: 25px;
+                        margin-right: 10px;
+                    }
+
+                    .detail-comments-title-time {
+                        font-size: 12px;
+                        color: #666;
+                        margin-right: 10px;
+                    }
+
+                    .ant-tag {
+                        height: 16px;
+                        line-height: 14px;
+                    }
+
+                    .detail-comments-title-del {
+                        font-size: 14px;
+                        color: blueviolet;
+                        font-weight: 600;
+                        float: right;
+                        cursor: pointer;
+                        margin-left: 20px;
+                    }
+
+                    .detail-comments-title-modify {
+                        font-size: 14px;
+                        color: blueviolet;
+                        font-weight: 600;
+                        float: right;
+                        cursor: pointer;
+                        margin-left: 20px;
+                    }
+
+                    .detail-comments-title-reply {
+                        font-size: 14px;
+                        color: blueviolet;
+                        font-weight: 600;
+                        float: right;
+                        cursor: pointer;
+                        margin-left: 20px;
+                    }
+                }
+
+                .detail-comments-text {
+                    padding: 0 10px 10px 10px;
+                    border-bottom: 1px solid #ccc;
+                    word-wrap: break-word;
+                }
+                .detail-comments-form {
+                    margin-top: -4px;
+                    border-bottom: 1px solid #ccc;
+                }
+            }
+        }
+
+        .detail-comments-replay-mun {
+            margin-left: 40px;
+            border-left: 5px solid #666;
+
+            span {
+                margin-top: 10px;
+                margin-left: 10px;
+                font-size: 12px;
+                border-bottom: none;
+            }
+        }
+
+        .detail-comments-replay-wrap {
+            border-bottom: 1px solid #ccc;
+            .detail-comments-replay {
+                padding: 0 10px;
+                margin-left: 40px;
+                border-left: 5px solid #666;
+                border-right: 5px solid #666;
+                border-top: none;
+            }
+            .detail-comments-replay:last-child {
+                border-bottom: none;
+                .detail-comments-text {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+}

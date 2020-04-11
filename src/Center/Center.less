@@ -1,0 +1,75 @@
+.center {
+    padding: 20px;
+    height: ~"calc(100% - 80px)";
+    overflow: auto;
+    position: relative;
+    display: flex;
+
+    .center-card-main {
+        .center-card-img {
+            width: 240px;
+            height: 180px;
+            text-align: center;
+            line-height: 190px;
+            position: relative;
+
+            img {
+                position: absolute;
+                top: 20px;
+                left: 50%;
+                margin-left: -77px;
+                width: 150px;
+                height: 150px;
+                border: 4px solid #EEE;
+                border-radius: 50%;
+                background-repeat: repeat;
+                background-size: contain;
+            }
+            .center-card-hover {
+                position: absolute;
+                opacity: 0;
+                top: 20px;
+                left: 50%;
+                margin-left: -77px;
+                width: 150px;
+                height: 150px;
+                border: 4px solid #EEE;
+                border-radius: 50%;
+                text-align: center;
+                line-height: 146px;
+                color: white;
+                background: rgba(0,0,0,0.5);
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+        .ant-card-body {
+            padding: 0 10px;
+            text-align: center;
+        }
+        .center-card-box {
+            .center-card-name {
+                color: rgba(0, 0, 0, 0.85);
+                word-wrap: break-word;
+                cursor: default;
+            }
+            .center-card-descrip {
+                color: rgba(0, 0, 0, 0.45);
+                font-size: 14px;
+                margin-bottom: 10px;
+                text-align: center;
+                cursor: default;
+                word-break: break-all;
+            }
+            .center-btn {
+                margin-bottom: 10px;
+            }
+        }
+    }
+    .center-tabs-main {
+        width: ~"calc(100% - 240px)";
+        padding-left: 10px;
+    }
+}
