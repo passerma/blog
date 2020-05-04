@@ -105,8 +105,15 @@
         position: relative;
         height: 100%;
         cursor: default;
-        background: url('../../imgs/music-play.jpg') center;
         background-size: cover;
+
+        .musicPlay-wrap-img {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
 
         .music-info {
             font-size: 14px;
@@ -339,6 +346,7 @@
                 color: #7f8c8d;
             }
         }
+
         .search-music-list-btn {
             padding-top: 10px;
 
@@ -346,6 +354,7 @@
                 height: 20px;
                 font-size: 12px;
             }
+
             .search-music-list-btn-next {
                 height: 20px;
                 font-size: 12px;

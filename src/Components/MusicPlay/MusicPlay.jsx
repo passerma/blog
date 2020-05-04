@@ -3,6 +3,7 @@ import './MusicPlay.less'
 import { Icon, Popover, Input, Skeleton, Empty, message, Button } from 'antd'
 import { searchMusci, searchMusciUrl } from '../api'
 import { setStorage, getStorage } from '../../CommonData/globalFun'
+import bgImg from '../../imgs/music-play.jpg'
 
 const MyIcon = Icon.createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_1642174_glci2r4wyxp.js', // 在 iconfont.cn 上生成
@@ -830,6 +831,7 @@ class MusicPlay extends React.Component {
                     <div className="music-img-next" title="下一曲" onClick={this.playNext}><MyIcon type="icon-jiantou-copy" /></div>
                 </div>
                 <div className="musicPlay-wrap">
+                    <img className="musicPlay-wrap-img" alt="播放器背景图" src={bgImg} />
                     <div className="music-info" title={`${musicName}-${musicAuthor}`}>{musicName}-{musicAuthor}</div>
                     <div className="music-btn">
                         <span className="music-sound" title="音量">

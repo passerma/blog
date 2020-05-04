@@ -13,6 +13,7 @@ import PrivateRoute from './PrivateRoute'
 import { COMMON_URL } from '../CommonData/api'
 import Footer from '../Components/Footer/Footer'
 import MusicPlay from '../Components/MusicPlay/MusicPlay'
+import LightDark from '../Components/LightDark/LightDark'
 
 class router extends React.Component {
     constructor(props) {
@@ -71,7 +72,8 @@ class router extends React.Component {
                     }
                     <Redirect from="*" to="/" />
                 </Switch>
-                <MusicPlay/>
+                <MusicPlay />
+                <LightDark />
                 <Footer></Footer>
             </Router>
         )

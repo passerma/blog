@@ -20,6 +20,7 @@
     "case-sensitive-paths-webpack-plugin": "2.3.0",
     "core-js": "^3.6.5",
     "css-loader": "3.4.2",
+    "darkmode-js": "^1.5.5",
     "dot-prop-immutable": "^2.1.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
