@@ -146,7 +146,7 @@ export default class HomeTitle extends React.Component {
                 <div className="homeTitle-day">
                     <div className="homeTitle-title">今日，</div>
                     <div className="homeTitle-text">
-                        {`${this.year}年${this.month + 1}月${this.data}日星期${this.day}，欢迎您来到不爱骑马的路人马的博客。`}
+                        {`${this.year}年${this.month + 1}月${this.data}日星期${this.day}，欢迎您来到PASSERMA的博客。`}
                     </div>
                 </div>
                 <div className="homeTitle-wea">

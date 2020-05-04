@@ -12,7 +12,7 @@ class Navbar extends React.Component {
     }
     componentDidMount() {
         if (this.props.location.pathname === '/') {
-            this._updateTitle('不爱骑马的路人马', '100%')
+            this._updateTitle('PASSERMA', '100%')
         } else if (this.props.location.pathname === '/plugins') {
             this._updateTitle('插件中心', '200%')
         } else if (this.props.location.pathname === '/article' || this.props.location.pathname.indexOf('/article') !== -1) {
@@ -29,7 +29,7 @@ class Navbar extends React.Component {
     }
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.location.pathname === '/') {
-            this._updateTitle('不爱骑马的路人马', '100%')
+            this._updateTitle('PASSERMA', '100%')
         } else if (nextProps.location.pathname === '/plugins') {
             this._updateTitle('插件中心', '200%')
         } else if (nextProps.location.pathname === '/article' || nextProps.location.pathname.indexOf('/article') !== -1) {

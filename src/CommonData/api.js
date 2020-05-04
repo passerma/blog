@@ -1,5 +1,5 @@
-// export const COMMON_URL = 'http://localhost:7010/api';
-export const COMMON_URL = 'https://www.passerma.com/api'
+export const COMMON_URL = 'http://localhost:7010/api';
+// export const COMMON_URL = 'https://www.passerma.com/api'
 
 export function FetchData(urlResult, params, callBack) {
     let url = `${COMMON_URL}${urlResult}`

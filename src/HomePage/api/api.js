@@ -23,6 +23,16 @@ export function getBaiduyunData(url, callBack) {
     })
 }
 
+export function getIpInfo(value, callBack) {
+    let params = {
+        method: "GET",
+    }
+    let getUrl = `/tool/ipsearch?value=${value}`
+    FetchData(getUrl, params, (res) => {
+        callBack(res)
+    })
+}
+
 export function getWeiBoTop(callBack) {
     let params = {
         method: "GET",

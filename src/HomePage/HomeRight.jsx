@@ -3,7 +3,7 @@ import './HomeRight.less';
 import { Collapse } from 'antd';
 import HomeToolFootball from './HomeRightTools/Football'
 import HomeToolBaiduyun from './HomeRightTools/Baiduyun'
-import HomeToolWeibo from './HomeRightTools/WeiBo'
+import HomeToolIpSearch from './HomeRightTools/IpSearch'
 
 const { Panel } = Collapse;
 
@@ -22,8 +22,8 @@ export default class HomeRight extends React.Component {
                         <Panel className="HomeRight-tools-football" header="足球六大联赛积分榜" key="1">
                             <HomeToolFootball></HomeToolFootball>
                         </Panel>
-                        <Panel className="HomeRight-tools-weibo" header="微博实时头条" key="2">
-                            <HomeToolWeibo></HomeToolWeibo>
+                        <Panel className="HomeRight-tools-ipSearch" header="ip信息查询" key="2">
+                            <HomeToolIpSearch></HomeToolIpSearch>
                         </Panel>
                         <Panel className="HomeRight-tools-baiduyun" header="百度网盘提取码查询" key="3">
                             <HomeToolBaiduyun></HomeToolBaiduyun>
