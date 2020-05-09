@@ -23,8 +23,14 @@ body {
 
 .html-dark {
   filter: invert(1) hue-rotate(270deg);
+  background: #000;
 }
+
 .html-dark img {
+  filter: invert(1) hue-rotate(90deg);
+}
+
+.html-dark .avatarImg-edit canvas {
   filter: invert(1) hue-rotate(90deg);
 }
 
@@ -42,8 +48,7 @@ body {
   font-family: "iconfont";
   /* project id 1293601 */
   src: url("//at.alicdn.com/t/font_1293601_khbwr9z6w2c.eot");
-  src: url("//at.alicdn.com/t/font_1293601_khbwr9z6w2c.eot?#iefix")
-      format("embedded-opentype"),
+  src: url("//at.alicdn.com/t/font_1293601_khbwr9z6w2c.eot?#iefix") format("embedded-opentype"),
     url("//at.alicdn.com/t/font_1293601_khbwr9z6w2c.woff2") format("woff2"),
     url("//at.alicdn.com/t/font_1293601_khbwr9z6w2c.woff") format("woff"),
     url("//at.alicdn.com/t/font_1293601_khbwr9z6w2c.ttf") format("truetype"),
