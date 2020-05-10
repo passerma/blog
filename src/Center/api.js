@@ -12,9 +12,9 @@ export function postLoginInfo(data, callBack) {
         body: JSON.stringify(data)
     }
     let url = `/user/allInfo`
-	FetchData(url, params, (res) => {
+    FetchData(url, params, (res) => {
         callBack(res)
-	})
+    })
 }
 
 /** 
@@ -25,7 +25,33 @@ export function getAllInfo(callBack) {
         method: "GET",
     }
     let url = `/user/allInfo`
-	FetchData(url, params, (res) => {
+    FetchData(url, params, (res) => {
         callBack(res)
-	})
+    })
+}
+
+/** lock
+ * 获取签到信息
+*/
+export function getClock(callBack) {
+    let params = {
+        method: "GET",
+    }
+    let url = `/user/getclock`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
+
+/**
+ * 设置登录
+ */
+export function setClockTime(callBack) {
+    let params = {
+        method: "POST",
+    }
+    let url = `/user/setclock`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
 }

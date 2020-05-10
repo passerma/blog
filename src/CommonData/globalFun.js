@@ -1,3 +1,4 @@
+import moment from 'moment'
 const storage = window.localStorage;
 
 //#region local storage相关
@@ -58,9 +59,36 @@ export function clearStorage() {
 /** 
  * XSS替换 
  */
-export function translateXSSText (value) {
+export function translateXSSText(value) {
     let newValue = value.replace(/&lt;/g, '<');
     newValue = newValue.replace(/&gt;/g, '>');
     return newValue
+}
+//#endregion
+
+//#region 日期相关
+/** 
+ * 返回周几
+*/
+export function getTimeDay(time) {
+    let week = moment(time).day()
+    switch (week) {
+        case 1:
+            return '周一'
+        case 2:
+            return '周二'
+        case 3:
+            return '周三'
+        case 4:
+            return '周四'
+        case 5:
+            return '周五'
+        case 6:
+            return '周六'
+        case 0:
+            return '周日'
+        default:
+            return '错误'
+    }
 }
 //#endregion

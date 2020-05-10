@@ -11,7 +11,7 @@ import CenterView from './CenterView'
 import CenterInfo from './CenterInfo'
 
 const MyIcon = Icon.createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1692441_4rewbyzx82n.js', // 在 iconfont.cn 上生成
+    scriptUrl: '//at.alicdn.com/t/font_1692441_7jlwg8r6rjq.js', // 在 iconfont.cn 上生成
 });
 
 const { TabPane } = Tabs;
@@ -96,7 +96,7 @@ class Center extends React.Component {
                         </div>
                     </Card>
                 </div>
-                <Tabs defaultActiveKey="2" className="center-tabs-main">
+                <Tabs defaultActiveKey="1" className="center-tabs-main">
                     <TabPane tab={
                         <span style={{ fontSize: '16px' }}><MyIcon type="icon-xiangmugailan" />个人概览</span>
                     } key="1">

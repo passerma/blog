@@ -10,6 +10,10 @@ a {
   color: #fff;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
 ul {
   list-style: none;
 }
