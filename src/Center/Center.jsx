@@ -63,7 +63,10 @@ class Center extends React.Component {
     }
 
     onAvatarOk = (avatar) => {
+        let avatarSrc = this.props.userInfo.avatar
         this.randomImg = Math.random()
+        let navImg = document.querySelector('.nav-bar-item-img')
+        navImg.src = `${COMMON_URL}/file/get/avatar?avatar=${avatarSrc}&t=${this.randomImg}`
         this.setState({
             showAvatar: false
         })

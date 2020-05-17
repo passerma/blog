@@ -29,29 +29,3 @@ export function getAllInfo(callBack) {
         callBack(res)
     })
 }
-
-/** lock
- * 获取签到信息
-*/
-export function getClock(callBack) {
-    let params = {
-        method: "GET",
-    }
-    let url = `/user/getclock`
-    FetchData(url, params, (res) => {
-        callBack(res)
-    })
-}
-
-/**
- * 设置登录
- */
-export function setClockTime(callBack) {
-    let params = {
-        method: "POST",
-    }
-    let url = `/user/setclock`
-    FetchData(url, params, (res) => {
-        callBack(res)
-    })
-}

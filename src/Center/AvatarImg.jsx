@@ -32,7 +32,6 @@ export default class UpImgCom extends React.Component {
             this.setState({
                 loading: false
             })
-            message.success('修改成功')
             this.props.onCancel()
             return
         }

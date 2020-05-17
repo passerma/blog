@@ -3,6 +3,9 @@ import { Link, withRouter } from 'react-router-dom';
 import './Navbar.less';
 import tittlePng from '../../imgs/passerma.png';
 import { connect } from 'react-redux';
+import { COMMON_URL } from '../../CommonData/api'
+import { Popover } from 'antd';
+import NavBarPop from './NavBarPop'
 
 class Navbar extends React.Component {
     constructor(props) {
@@ -11,6 +14,7 @@ class Navbar extends React.Component {
         };
     }
     componentDidMount() {
+        const { username } = this.props
         if (this.props.location.pathname === '/') {
             this._updateTitle('PASSERMA', '100%')
         } else if (this.props.location.pathname === '/plugins') {
@@ -20,7 +24,7 @@ class Navbar extends React.Component {
         } else if (this.props.location.pathname === '/login') {
             this._updateTitle('登录', '300%')
         } else if (this.props.location.pathname === '/center') {
-            this._updateTitle('个人中心', '300%')
+            this._updateTitle(`${username}的个人中心`, '300%')
         } else if (this.props.location.pathname === '/register') {
             this._updateTitle('注册', '300%')
         } else if (this.props.location.pathname === '/forgot') {
@@ -28,6 +32,7 @@ class Navbar extends React.Component {
         }
     }
     UNSAFE_componentWillReceiveProps(nextProps) {
+        const { username } = nextProps
         if (nextProps.location.pathname === '/') {
             this._updateTitle('PASSERMA', '100%')
         } else if (nextProps.location.pathname === '/plugins') {
@@ -37,7 +42,7 @@ class Navbar extends React.Component {
         } else if (nextProps.location.pathname === '/login') {
             this._updateTitle('登录', '300%')
         } else if (nextProps.location.pathname === '/center') {
-            this._updateTitle('个人中心', '300%')
+            this._updateTitle(`${username}的个人中心`, '300%')
         } else if (nextProps.location.pathname === '/register') {
             this._updateTitle('注册', '300%')
         } else if (nextProps.location.pathname === '/forgot') {
@@ -56,7 +61,8 @@ class Navbar extends React.Component {
     }
 
     render() {
-        const { isLogin, username } = this.props
+        const { isLogin, username, avatar } = this.props
+
         return (
             <div className="nav-bar">
                 <div className="nav-bar-item">
@@ -69,12 +75,6 @@ class Navbar extends React.Component {
                         <i className="web-font">首页</i>
                     </Link>
                 </div>
-                {/* <div className="nav-bar-item">
-                    <Link className="link" to="/plugins">
-                        <i className="iconfont">&#xe646;</i>
-                        <i className="web-font">插件中心</i>
-                    </Link>
-                </div> */}
                 <div className="nav-bar-item">
                     <Link className="link" to="/article">
                         <i className="iconfont">&#xe602;</i>
@@ -83,10 +83,12 @@ class Navbar extends React.Component {
                 </div>
                 {
                     isLogin ? <div className="nav-bar-item">
-                        <Link className="link link-login" to="/center">
-                            <i className="iconfont">&#xe6e0;</i>
-                            <span className="name-font">{username}</span>
-                        </Link>
+                        <Popover overlayClassName="nav-bar-pop" content={<NavBarPop />} trigger="hover" arrowPointAtCenter >
+                            <Link className="link link-login" to="/center">
+                                <img alt="头像" className="nav-bar-item-img" src={`${COMMON_URL}/file/get/avatar?avatar=${avatar}`} />
+                                <span className="name-font">{username}</span>
+                            </Link>
+                        </Popover>
                     </div> : <div className="nav-bar-item">
                             <Link className="link link-login" to={{ pathname: '/login', state: { showLogin: true } }}>
                                 <i className="iconfont">&#xe6e0;</i>
@@ -105,10 +107,11 @@ class Navbar extends React.Component {
 
 function mapStateToProps(state) {
     let { isLogin } = state.setLogin
-    let { username } = state.setUserInfo
+    let { username, avatar } = state.setUserInfo
     return {
         isLogin,
-        username
+        username,
+        avatar
     }
 }
 

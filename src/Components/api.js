@@ -8,9 +8,9 @@ export function searchMusci(name, offset, limit, callBack) {
         method: "GET",
     }
     let url = `/tool/music/search?name=${name}&offset=${offset}&limit=${limit}`
-	FetchData(url, params, (res) => {
+    FetchData(url, params, (res) => {
         callBack(res)
-	})
+    })
 }
 
 /** 
@@ -21,7 +21,35 @@ export function searchMusciUrl(id, callBack) {
         method: "GET",
     }
     let url = `/tool/music/url?id=${id}`
-	FetchData(url, params, (res) => {
+    FetchData(url, params, (res) => {
         callBack(res)
-	})
+    })
 }
+
+//#region 个人中心相关
+/** lock
+ * 获取签到信息
+*/
+export function getClock(callBack) {
+    let params = {
+        method: "GET",
+    }
+    let url = `/user/getclock`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
+
+/**
+ * 设置签到
+ */
+export function setClockTime(callBack) {
+    let params = {
+        method: "POST",
+    }
+    let url = `/user/setclock`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
+//#endregion
