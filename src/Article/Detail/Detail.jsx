@@ -34,6 +34,7 @@ class FooGuardTestForm extends React.Component {
     }
     componentDidMount() {
         let id = this.props.match.params.id
+        let that = this
         getDatail(id, (res) => {
             if (res.ErrCode === 0) {
                 let data = res.data
@@ -47,6 +48,14 @@ class FooGuardTestForm extends React.Component {
                     noneArticle: false
                 }, () => {
                     this.refs.detail.innerHTML = data.content
+                    let allPre = document.querySelectorAll('.detail-content pre')
+                    for (let i = 0; i < allPre.length; i++) {
+                        let newchild = document.createElement("div");
+                        newchild.innerHTML = "复制";
+                        let innerText = allPre[i].innerText
+                        newchild.onclick = function () { that.clickcCopy(innerText) };
+                        allPre[i].appendChild(newchild);
+                    }
                 })
             } else {
                 message.info(res.ErrMsg)
@@ -154,6 +163,20 @@ class FooGuardTestForm extends React.Component {
             allComments,
             commentsLength: data.length
         })
+    }
+
+    /** 
+     * 复制到剪贴板
+    */
+    clickcCopy = (str) => {
+        let save = function (e) {
+            e.clipboardData.setData('text/plain', str);
+            e.preventDefault();
+        };
+        document.addEventListener('copy', save);
+        document.execCommand('copy');
+        document.removeEventListener('copy', save);
+        message.success('复制成功')
     }
 
     //#endregion
@@ -337,7 +360,7 @@ class FooGuardTestForm extends React.Component {
         let { loading, title, commentsLoading, comments, createTime, updateTime, isModify, modifyId, btnLoading,
             replayRealName, replayBtnLoading, dataReplay, allComments, commentsLength, noneArticle, look, blogClass } = this.state
         let { userid, isLogin } = this.props
-        const { getFieldDecorator} = this.props.form;
+        const { getFieldDecorator } = this.props.form;
         const content = (
             <div>
                 <Form onSubmit={this.replaySubmit}>

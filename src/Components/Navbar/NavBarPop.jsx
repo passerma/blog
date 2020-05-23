@@ -1,6 +1,6 @@
 import React from 'react';
 import './NavBarPop.less';
-import { message, Tag, Tooltip, Icon } from 'antd';
+import { message, Tag, Tooltip, Icon, Button } from 'antd';
 import { getClock, setClockTime } from '../api'
 
 const MyIcon = Icon.createFromIconfontCN({
@@ -12,7 +12,7 @@ export default class CenterView extends React.Component {
         super(props);
         this.state = {
             clockDay: 0,
-            isclock: false,
+            isclock: false
         };
         this.clockLoad = true
     }
@@ -60,18 +60,15 @@ export default class CenterView extends React.Component {
         return (
             <div className="nav-bar-pop-main">
                 {
-                    isclock ? <Tooltip arrowPointAtCenter placement="bottom" title="今日已签，明天再来噢">
+                    isclock ?
                         <div className="nav-bar-pop-item-dk" style={{ cursor: 'default' }}>
-                            <span className="nav-bar-pop-item-dk-span"> 已连签<Tag color="#2db7f5">{clockDay}</Tag>天</span>
-                            <MyIcon type="icon-yiqiandao" />
+                            <span className="nav-bar-pop-item-dk-span"><Tag color="green">今日已签到</Tag></span>
+                            <span className="nav-bar-pop-item-dk-span"> 连签<Tag color="#2db7f5">{clockDay}</Tag>天</span>
+                        </div> :
+                        <div className="nav-bar-pop-item-dk">
+                            <span className="nav-bar-pop-item-dk-span"> <Tag color="gold">今日未签到</Tag></span>
+                            <Button type="primary" onClick={this.setClock}>签到</Button>
                         </div>
-                    </Tooltip> :
-                        <Tooltip arrowPointAtCenter placement="bottom" title="今日未签，点击进行签到">
-                            <div onClick={this.setClock} className="nav-bar-pop-item-dk">
-                                <span className="nav-bar-pop-item-dk-span"> 已连签<Tag color="#2db7f5">{clockDay}</Tag>天</span>
-                                <MyIcon style={{ 'color': 'red' }} type="icon-banhuijia_weiqiandao" />
-                            </div>
-                        </Tooltip>
                 }
             </div>
         );

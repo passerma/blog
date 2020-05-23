@@ -83,12 +83,11 @@ class Navbar extends React.Component {
                 </div>
                 {
                     isLogin ? <div className="nav-bar-item">
-                        <Popover overlayClassName="nav-bar-pop" content={<NavBarPop />} trigger="hover" arrowPointAtCenter >
-                            <Link className="link link-login" to="/center">
-                                <img alt="头像" className="nav-bar-item-img" src={`${COMMON_URL}/file/get/avatar?avatar=${avatar}`} />
-                                <span className="name-font">{username}</span>
-                            </Link>
-                        </Popover>
+                        <Link className="link link-login link-islogin" to="/center">
+                            <img alt="头像" className="nav-bar-item-img" src={`${COMMON_URL}/file/get/avatar?avatar=${avatar}`} />
+                            <span className="name-font">{username}</span>
+                        </Link>
+                        <div className="item-pop"><NavBarPop /></div>
                     </div> : <div className="nav-bar-item">
                             <Link className="link link-login" to={{ pathname: '/login', state: { showLogin: true } }}>
                                 <i className="iconfont">&#xe6e0;</i>

@@ -14,6 +14,7 @@ import { COMMON_URL } from '../CommonData/api'
 import Footer from '../Components/Footer/Footer'
 import MusicPlay from '../Components/MusicPlay/MusicPlay'
 import LightDark from '../Components/LightDark/LightDark'
+import Ribbon from '../Components/Ribbon/Ribbon'
 
 class router extends React.Component {
     constructor(props) {
@@ -46,6 +47,7 @@ class router extends React.Component {
     render() {
         return (
             <Router>
+                <Ribbon />
                 <Navbar />
                 <Switch>
                     {
