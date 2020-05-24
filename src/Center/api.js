@@ -1,5 +1,6 @@
 import { FetchData } from '../CommonData/api'
 
+//#region center-info
 /** 
  * 修改用户个人简介
 */
@@ -29,3 +30,31 @@ export function getAllInfo(callBack) {
         callBack(res)
     })
 }
+//#endregion
+
+//#region center-view
+/** 
+ * 获取评论
+*/
+export const getComments = (callBack) => {
+    let params = {
+        method: "GET",
+    }
+    let url = `/user/allComments`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
+/** 
+ * 删除评论
+*/
+export function delComments(id, callBack) {
+    let params = {
+        method: "POST",
+    }
+    let url = `/blog/detail/delcomments?id=${id}`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
+//#endregion

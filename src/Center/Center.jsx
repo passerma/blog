@@ -103,7 +103,7 @@ class Center extends React.Component {
                     <TabPane tab={
                         <span style={{ fontSize: '16px' }}><MyIcon type="icon-xiangmugailan" />个人概览</span>
                     } key="1">
-                        <CenterView />
+                        <CenterView userInfo={userInfo} />
                     </TabPane>
                     <TabPane tab={
                         <span style={{ fontSize: '16px' }}><MyIcon type="icon-gerenxinxi" />个人信息</span>

@@ -4,7 +4,6 @@ import './Navbar.less';
 import tittlePng from '../../imgs/passerma.png';
 import { connect } from 'react-redux';
 import { COMMON_URL } from '../../CommonData/api'
-import { Popover } from 'antd';
 import NavBarPop from './NavBarPop'
 
 class Navbar extends React.Component {

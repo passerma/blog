@@ -1,11 +1,7 @@
 import React from 'react';
 import './NavBarPop.less';
-import { message, Tag, Tooltip, Icon, Button } from 'antd';
+import { message, Tag, Button } from 'antd';
 import { getClock, setClockTime } from '../api'
-
-const MyIcon = Icon.createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1813547_k63lwq1inc.js', // 在 iconfont.cn 上生成
-});
 
 export default class CenterView extends React.Component {
     constructor(props) {

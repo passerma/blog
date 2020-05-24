@@ -1,4 +1,10 @@
 import React from 'react';
+import ViewComments from './ViewComments'
+import { Icon } from 'antd';
+
+const MyIcon = Icon.createFromIconfontCN({
+    scriptUrl: '//at.alicdn.com/t/font_1838438_ekxy8b5kewf.js', // 在 iconfont.cn 上生成
+});
 
 export default class CenterView extends React.Component {
     constructor(props) {
@@ -8,9 +14,10 @@ export default class CenterView extends React.Component {
     }
 
     render() {
+        let { userInfo } = this.props
         return (
             <div className="centerView-main">
-                暂未开放
+                <ViewComments MyIcon={MyIcon} userInfo={userInfo} />
             </div >
         );
     }
