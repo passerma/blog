@@ -1,7 +1,7 @@
 .detail {
-    padding: 20px 10px;
     height: ~"calc(100% - 80px)";
     overflow: auto;
+    position: relative;
 
     .ant-back-top-content {
         background-color: rgba(0, 0, 0, 0.25);
@@ -17,6 +17,7 @@
         border-radius: 5px;
         padding: 20px;
         min-height: 300px;
+        padding-left: 210px;
 
         p {
             font-size: 14px;
@@ -215,6 +216,43 @@
                     border-bottom: none;
                 }
             }
+        }
+    }
+
+    .detail-anchor {
+        position: fixed;
+        padding: 10px;
+        top: 52px;
+        width: 200px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+
+        .detail-anchor-title {
+            font-size: 16px;
+            color: #000;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .detail-anchor-1 {
+            padding-left: 7px;
+        }
+
+        .detail-anchor-2 {
+            padding-left: 22px;
+        }
+
+        .detail-anchor-3 {
+            padding-left: 37px;
+        }
+
+        .detail-anchor-4 {
+            padding-left: 52px;
+        }
+
+        .detail-anchor-5 {
+            padding-left: 67px;
         }
     }
 }

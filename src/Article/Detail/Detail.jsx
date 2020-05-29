@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getDatail, getComments, delComments, modifyComments, replayComments } from '../api/api'
-import { Skeleton, BackTop, Empty, Input, Form, Button, Modal, message, Tag, Popover } from 'antd';
+import { Skeleton, BackTop, Empty, Input, Form, Button, Modal, message, Tag, Popover, Anchor } from 'antd';
 import { COMMON_URL } from '../../CommonData/api'
 import './Detail.less';
 import './AddComments'
@@ -29,8 +29,12 @@ class FooGuardTestForm extends React.Component {
             replayParents: '',
             noneArticle: false,
             look: 0,
-            blogClass: ''
+            blogClass: '',
+            loadingAnchor: true,
+            AnchorLink: null
         };
+        this.blogText = '';
+        this.minLinkNum = 5;
     }
     componentDidMount() {
         let id = this.props.match.params.id
@@ -45,6 +49,7 @@ class FooGuardTestForm extends React.Component {
                     updateTime: data.updatetime,
                     look: data.look,
                     blogClass: data.class,
+                    blogText: data.text,
                     noneArticle: false
                 }, () => {
                     this.refs.detail.innerHTML = data.content
@@ -56,6 +61,7 @@ class FooGuardTestForm extends React.Component {
                         newchild.onclick = function () { that.clickcCopy(innerText) };
                         allPre[i].appendChild(newchild);
                     }
+                    this.addAnchor()
                 })
             } else {
                 message.info(res.ErrMsg)
@@ -356,9 +362,73 @@ class FooGuardTestForm extends React.Component {
     };
     //#endregion
 
+    //#region 锚点
+    /** 
+     * 添加锚点
+    */
+    addAnchor = () => {
+        let linkAllTitle = []
+        let { blogText } = this.state
+        blogText = blogText.replace(/&nbsp;/g, "")
+        blogText = blogText.replace(/\s/g, "")
+        this.blogText = blogText
+        let allH1 = document.querySelectorAll('.detail-content h1')
+        let allH2 = document.querySelectorAll('.detail-content h2')
+        let allH3 = document.querySelectorAll('.detail-content h3')
+        let allH4 = document.querySelectorAll('.detail-content h4')
+        let allH5 = document.querySelectorAll('.detail-content h5')
+        linkAllTitle.push(...this.setId(allH1, 1))
+        linkAllTitle.push(...this.setId(allH2, 2))
+        linkAllTitle.push(...this.setId(allH3, 3))
+        linkAllTitle.push(...this.setId(allH4, 4))
+        linkAllTitle.push(...this.setId(allH5, 5))
+        linkAllTitle.sort(this.sortLink)
+        let AnchorLink = null
+        if (linkAllTitle.length === 0) {
+            AnchorLink = <div style={{ width: '100%', marginTop: '10px', textAlign: 'center' }}>该文章无目录</div>
+        } else {
+            AnchorLink = <Anchor getContainer={() => document.querySelector('.detail')} onClick={e => e.preventDefault()}>
+                {
+                    linkAllTitle.map((element, index) =>
+                        <Anchor.Link className={`detail-anchor-${element.h + 1 - this.minLinkNum}`} key={index} href={`#${element.href}`}
+                            title={element.title} />
+                    )
+                }
+            </Anchor >
+        }
+        this.setState({
+            AnchorLink
+        })
+    }
+
+    /** 
+     * 设置h的锚点
+     */
+    setId = (allH, h) => {
+        let linkTitle = []
+        for (let i = 0; i < allH.length; i++) {
+            allH[i].setAttribute('id', allH[i].innerText);
+            let title = allH[i].innerText.replace(/\s/g, '')
+            linkTitle.push({ h, title, href: allH[i].innerText })
+        }
+        if (linkTitle.length !== 0) {
+            (h < this.minLinkNum) && (this.minLinkNum = h)
+        }
+        return linkTitle
+    }
+
+    /** 
+     * 排序标题
+     */
+    sortLink = (a, b) => {
+        return this.blogText.indexOf(a.title) - this.blogText.indexOf(b.title)
+    }
+    //#endregion
+
     render() {
         let { loading, title, commentsLoading, comments, createTime, updateTime, isModify, modifyId, btnLoading,
-            replayRealName, replayBtnLoading, dataReplay, allComments, commentsLength, noneArticle, look, blogClass } = this.state
+            replayRealName, replayBtnLoading, dataReplay, allComments, commentsLength, noneArticle, look, blogClass,
+            AnchorLink } = this.state
         let { userid, isLogin } = this.props
         const { getFieldDecorator } = this.props.form;
         const content = (
@@ -556,6 +626,14 @@ class FooGuardTestForm extends React.Component {
                     }
                 </Skeleton>
                 <BackTop target={() => document.querySelector('.detail')} />
+                {
+                    (!loading && !noneArticle) && <div className="detail-anchor">
+                        <span className="detail-anchor-title">目录</span>
+                        {
+                            AnchorLink && AnchorLink
+                        }
+                    </div>
+                }
             </div>
         )
     }
