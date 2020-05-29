@@ -47,7 +47,6 @@ export default class IpSearch extends React.Component {
             }
         })
     }
-
     render() {
         let { hasTable, hasIp, info, loading } = this.state
         return (
@@ -80,9 +79,9 @@ export default class IpSearch extends React.Component {
                                         <td><span id="resCity">{info.city}</span></td>
                                     </tr>
                                 </tbody>
-                            </table> : <Result style={{padding: '10px'}}
-                                    status="warning"
-                                    title="查询失败，请检查您输入的ip地址是否正确，或稍后再次查询"
+                            </table> : <Result style={{ padding: '10px' }}
+                                status="warning"
+                                title="查询失败，请检查您输入的ip地址是否正确，或稍后再次查询"
                                 />
                         }
                     </Spin>

@@ -58,3 +58,22 @@ export function delComments(id, callBack) {
     })
 }
 //#endregion
+
+//#region center-set
+/** 
+ * 修改密码
+*/
+export function changePassword(data, callBack) {
+    let params = {
+        method: "POST",
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }
+    let url = `/user/changePassword`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
+//#endregion

@@ -1,5 +1,16 @@
 import { FetchData } from '../../CommonData/api'
 
+//#region right
+export function getNewListData(callBack) {
+    let params = {
+        method: "GET",
+    }
+    let getUrl = `/tool/newList`
+    FetchData(getUrl, params, (res) => {
+        callBack(res)
+    })
+}
+
 export function getFootballData(type, league, callBack) {
     let params = {
         method: "GET",
@@ -32,17 +43,9 @@ export function getIpInfo(value, callBack) {
         callBack(res)
     })
 }
+//#endregion
 
-export function getWeiBoTop(callBack) {
-    let params = {
-        method: "GET",
-    }
-    let getUrl = `/crawler/weiboTop`
-    FetchData(getUrl, params, (res) => {
-        callBack(res)
-    })
-}
-
+//#region left
 export function getHomeArticle(callBack) {
     let params = {
         method: "GET",
@@ -52,3 +55,4 @@ export function getHomeArticle(callBack) {
         callBack(res)
     })
 }
+//#endregion

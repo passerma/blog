@@ -4,6 +4,7 @@ import { Collapse } from 'antd';
 import HomeToolFootball from './HomeRightTools/Football'
 import HomeToolBaiduyun from './HomeRightTools/Baiduyun'
 import HomeToolIpSearch from './HomeRightTools/IpSearch'
+import HomeToolNewList from './HomeRightTools/NewList'
 
 const { Panel } = Collapse;
 
@@ -19,13 +20,16 @@ export default class HomeRight extends React.Component {
             <div className="HomeRight" >
                 <div className="HomeRight-tools">
                     <Collapse accordion>
-                        <Panel className="HomeRight-tools-football" header="足球六大联赛积分榜" key="1">
+                        <Panel className="HomeRight-tools-newList" header="新鲜事简单报" key="1">
+                            <HomeToolNewList></HomeToolNewList>
+                        </Panel>
+                        <Panel className="HomeRight-tools-football" header="足球六大联赛积分榜" key="2">
                             <HomeToolFootball></HomeToolFootball>
                         </Panel>
-                        <Panel className="HomeRight-tools-ipSearch" header="ip信息查询" key="2">
+                        <Panel className="HomeRight-tools-ipSearch" header="ip信息查询" key="3">
                             <HomeToolIpSearch></HomeToolIpSearch>
                         </Panel>
-                        <Panel className="HomeRight-tools-baiduyun" header="百度网盘提取码查询" key="3">
+                        <Panel className="HomeRight-tools-baiduyun" header="百度网盘提取码查询" key="4">
                             <HomeToolBaiduyun></HomeToolBaiduyun>
                         </Panel>
                     </Collapse>

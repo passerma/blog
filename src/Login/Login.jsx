@@ -310,7 +310,7 @@ class LoginForm extends React.Component {
                                     />,
                                 )}
                             </Form.Item>
-                            <Form.Item style={{textAlign: 'center'}}>
+                            <Form.Item style={{ textAlign: 'center' }}>
                                 {getFieldDecorator('remember', {
                                     valuePropName: 'checked',
                                     initialValue: true,

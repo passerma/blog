@@ -12,6 +12,6 @@ export default [
     { path: '/article/:id', component: Detail, exact: true, login: false, none: '/login', needLogin: true },
     { path: '/login', component: Login, exact: true, login: true, none: '/center', needLogin: false },
     { path: '/register', component: Register, exact: true, login: true, none: '/center', needLogin: false },
-    { path: '/forgot', component: Forgot, exact: true, login: true, none: '/center', needLogin: false },
+    { path: '/forgot', component: Forgot, exact: true, login: false, none: '/center', needLogin: false },
     { path: '/center', component: Center, exact: true, login: true, none: '/login', needLogin: true }
 ]

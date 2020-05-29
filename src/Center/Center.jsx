@@ -9,9 +9,10 @@ import { setLogin, setUserInfoAvatar, setUserInfoName, setUserID, setUserIntrodu
 import AvatarImg from './AvatarImg'
 import CenterView from './CenterView'
 import CenterInfo from './CenterInfo'
+import CenterSet from './CenterSet'
 
 const MyIcon = Icon.createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1692441_7jlwg8r6rjq.js', // 在 iconfont.cn 上生成
+    scriptUrl: '//at.alicdn.com/t/font_1692441_hiyv2tk0c8h.js', // 在 iconfont.cn 上生成
 });
 
 const { TabPane } = Tabs;
@@ -109,6 +110,11 @@ class Center extends React.Component {
                         <span style={{ fontSize: '16px' }}><MyIcon type="icon-gerenxinxi" />个人信息</span>
                     } key="2">
                         <CenterInfo />
+                    </TabPane>
+                    <TabPane tab={
+                        <span style={{ fontSize: '16px' }}><MyIcon type="icon-gerenshezhi" />个人设置</span>
+                    } key="3">
+                        <CenterSet />
                     </TabPane>
                 </Tabs>
                 <AvatarImg onCancel={this.onAvatarCancel} onOk={this.onAvatarOk} needShow={showAvatar} avatar={avatar}></AvatarImg>

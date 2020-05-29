@@ -3,14 +3,13 @@ import './Forgot.less';
 import { withRouter } from 'react-router-dom';
 import { Form, Icon, Input, Button, message, Row, Col, Card } from 'antd';
 import { connect } from 'react-redux';
+import { setLogin, setUserInfoAvatar, setUserInfoName, setUserID, setUserIntroduction } from '../Redux/action';
 import { COMMON_URL } from '../CommonData/api';
 
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            blogData: [],
-            commentsNum: {},
             loading: false,
             btnText: '获取验证码',
             successRe: false,
@@ -92,6 +91,11 @@ class LoginForm extends React.Component {
                         })
                         if (this.state.needBack) {
                             message.success('密码修改成功, 现前往登录')
+                            this.props.dispatch(setLogin(false))
+                            this.props.dispatch(setUserInfoName(''))
+                            this.props.dispatch(setUserInfoAvatar(''))
+                            this.props.dispatch(setUserIntroduction(''))
+                            this.props.dispatch(setUserID(''))
                             this.props.history.push("/login")
                         } else {
                             message.success('密码修改成功')
@@ -173,7 +177,7 @@ class LoginForm extends React.Component {
                     successRe ? <Fragment>
                         <Card className="regi-suss" title="修改成功" bordered={false} style={{ width: 300 }}>
                             <p><a href="https://www.passerma.com/center">前往个人中心</a></p>
-                            <p><a href="https://www.passerma.com">前往不爱骑马的路人马博客</a></p>
+                            <p><a href="https://www.passerma.com">前往PASSERMA博客</a></p>
                             <p><a href="https://go.passerma.com">前往PM极简导航</a></p>
                             <Button type="primary" onClick={() => {
                                 window.opener = null;
