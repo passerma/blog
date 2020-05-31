@@ -65,7 +65,7 @@ class Navbar extends React.Component {
         return (
             <div className="nav-bar">
                 <div className="nav-bar-item">
-                    <img alt="passerma" src={tittlePng}></img>
+                    <img className="title-img" alt="passerma" src={tittlePng}></img>
                     <div className="nowIcon" ref="nowTitle"></div>
                 </div>
                 <div className="nav-bar-item">

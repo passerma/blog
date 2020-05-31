@@ -64,6 +64,19 @@ export function translateXSSText(value) {
     newValue = newValue.replace(/&gt;/g, '>');
     return newValue
 }
+
+/** 
+     * 转换日期格式为年月日小时分例：2000-01-01 20:00
+    */
+export function translateDateYMDHM(createtime) {
+    let date = new Date(createtime);
+    let year = date.getFullYear();
+    let month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+    let newDate = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+    let h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+    let m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+    return `${year}-${month}-${newDate} ${h}:${m}`
+}
 //#endregion
 
 //#region 日期相关

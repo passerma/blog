@@ -50,8 +50,6 @@ export default class Article extends React.Component {
                 this.setState({
                     topArticle: res.data,
                 })
-            } else {
-                res && message.error(res.ErrMsg)
             }
         })
     }
