@@ -10,7 +10,7 @@ class PrivateRoute extends Component {
         }
     }
 
-    componentDidMount () {
+    componentDidMount() {
         let { isLogin } = this.props
         this.nextRoute(isLogin)
     }

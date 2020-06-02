@@ -52,4 +52,17 @@ export function setClockTime(callBack) {
         callBack(res)
     })
 }
+
+/**
+ * 获取未读消息
+ */
+export function getUnreadNumData(callBack) {
+    let params = {
+        method: "GET",
+    }
+    let url = `/message/unreaadnum`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
 //#endregion

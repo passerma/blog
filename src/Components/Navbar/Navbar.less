@@ -15,19 +15,21 @@
         .item-pop {
             position: absolute;
             width: 100%;
+            opacity: 0;
             height: 0;
+            // height: 90px;
+            // opacity: 1;
             top: 50px;
             overflow: hidden;
             transition: all .2s ease-in-out;
             z-index: 2001;
             background: white;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
-            opacity: 0;
         }
 
         &:hover {
             .item-pop {
-                height: 50px;
+                height: 90px;
                 opacity: 1;
             }
         }

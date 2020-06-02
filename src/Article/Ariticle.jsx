@@ -367,11 +367,11 @@ export default class Article extends React.Component {
                                 </span>
                             </div>
                             <div className="article-stick-title">
-                                <Link target="_blank" className="article-stick-link" to={`/article/${topArticle.id}`}>
+                                <Link className="article-stick-link" to={`/article/${topArticle.id}`}>
                                     {topArticle.title}
                                 </Link>
                             </div>
-                            <Link target="_blank" className="article-stick-text-link" to={`/article/${topArticle.id}`}>
+                            <Link className="article-stick-text-link" to={`/article/${topArticle.id}`}>
                                 <div className="article-stick-text">
                                     {topArticle.text}
                                 </div>
@@ -386,12 +386,12 @@ export default class Article extends React.Component {
                                 blogData.length > 0 ? blogData.map((value, index) => <li className="article-main-list" key={index}>
                                     <p className="article-time">{this._translateDate(value.createtime, false)}</p>
                                     <div className="article-title">
-                                        <Link target="_blank" className="article-title-span" to={`/article/${value.id}`}>{value.title}</Link>
+                                        <Link className="article-title-span" to={`/article/${value.id}`}>{value.title}</Link>
                                     </div>
                                     <div className="article-content">
                                         <span className="article-content-little">摘要：{this._translateText(value.text)}</span>
                                         <Button>
-                                            <Link target="_blank" to={`/article/${value.id}`}>查看全文</Link>
+                                            <Link to={`/article/${value.id}`}>查看全文</Link>
                                         </Button>
                                     </div>
                                     <div className="article-msg">

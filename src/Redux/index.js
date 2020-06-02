@@ -2,13 +2,15 @@ import { createStore, combineReducers } from 'redux';
 import {
     setLogin,
     setUserID,
-    setUserInfo
+    setUserInfo,
+    setUserCenter
 } from './reducer';
 
 const rootReducer = combineReducers({
     setLogin,
     setUserID,
-    setUserInfo
+    setUserInfo,
+    setUserCenter
 })
 
 const store = createStore(rootReducer);

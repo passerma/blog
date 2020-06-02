@@ -1,7 +1,7 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button, message, Card, Tabs, Icon } from 'antd';
+import { Button, message, Card, Tabs, Icon, Divider } from 'antd';
 import './Center.less';
 import { COMMON_URL } from '../CommonData/api'
 import { translateXSSText } from '../CommonData/globalFun'
@@ -99,6 +99,12 @@ class Center extends React.Component {
                             <Button className="center-btn" onClick={this.loginOut} type="danger">退出登录</Button>
                         </div>
                     </Card>
+                    <Divider style={{ margin: '10px 0' }}>点击前往</Divider>
+                    <div className='center-card-link'>
+                        <Button>
+                            <Link to="/message">消息中心</Link>
+                        </Button>
+                    </div>
                 </div>
                 <Tabs defaultActiveKey="1" className="center-tabs-main">
                     <TabPane tab={

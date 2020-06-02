@@ -1,4 +1,7 @@
-import { SET_LOGIN, SET_USERID, SET_USERINFO_AVATAR, SET_USERINFO_NAME, SET_USERINFO_INTRODUCTION } from './actionTypes'
+import {
+    SET_LOGIN, SET_USERID, SET_USERINFO_AVATAR, SET_USERINFO_NAME, SET_USERINFO_INTRODUCTION,
+    SET_USER_MESSAGE_NUM
+} from './actionTypes'
 
 export function setLogin(isLogin) {
     return {
@@ -34,3 +37,12 @@ export function setUserIntroduction(introduction) {
         introduction
     }
 }
+
+//#region 导航个人中心相关
+export function setUserMessageNum(num) {
+    return {
+        type: SET_USER_MESSAGE_NUM,
+        num
+    }
+}
+//#endregion
