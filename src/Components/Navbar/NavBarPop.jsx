@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import './NavBarPop.less';
 import { message, Icon, Tag, Button, Badge, notification } from 'antd';
-import { getClock, setClockTime, getUnreadNumData } from '../api'
+import { getClock, setClockTime, getUnreadNumData, getClearMessagePopupData } from '../api'
 import { setUserMessageNum } from '../../Redux/action'
 import { connect } from 'react-redux';
 const MyIcon = Icon.createFromIconfontCN({
@@ -68,7 +68,23 @@ class NavBarPop extends React.Component {
         let that = this
         getUnreadNumData(res => {
             if (res && res.ErrCode === 0) {
-                if (res.data.num > 0) {
+                if (res.data.popup === 1) {
+                    const key = `open${Date.now()}`;
+                    const btn = (
+                        <Button type="primary" size="small" onClick={(e) => {
+                            e.stopPropagation()
+                            notification.close(key)
+                            getClearMessagePopupData((popupData) => {
+                                if (popupData && popupData.ErrCode === 0) {
+                                    message.success('清除消息提醒成功')
+                                } else {
+                                    popupData && message.error(popupData.ErrMsg)
+                                }
+                            })
+                        }}>
+                            不再提醒
+                        </Button>
+                    );
                     notification.open({
                         message: '消息提醒',
                         placement: 'bottomRight',
@@ -76,10 +92,12 @@ class NavBarPop extends React.Component {
                             cursor: 'pointer'
                         },
                         description:
-                            `您收到了 ${res.data.num} 条消息，可以前往个人中心-消息中心查看，或者点击前往查看`,
+                            `您收到了一条新消息，可稍后前往个人中心-消息中心查看，或者点击前往查看`,
+                        btn,
+                        key,
                         onClick: () => {
                             that.props.history.push('/message')
-                        },
+                        }
                     });
                 }
                 this.props.dispatch(setUserMessageNum(res.data.num))

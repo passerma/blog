@@ -20,7 +20,8 @@ class FooGuardTestForm extends React.Component {
             look: 0,
             blogClass: '',
             loadingAnchor: true,
-            AnchorLink: null
+            AnchorLink: null,
+            commentsLength: 0
         };
         this.blogText = '';
         this.minLinkNum = 5;
@@ -39,7 +40,8 @@ class FooGuardTestForm extends React.Component {
                     look: data.look,
                     blogClass: data.class,
                     blogText: data.text,
-                    noneArticle: false
+                    noneArticle: false,
+                    commentsLength: data.commentNum
                 }, () => {
                     this.refs.detail.innerHTML = data.content
                     let allPre = document.querySelectorAll('.detail-content pre')

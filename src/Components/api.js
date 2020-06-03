@@ -65,4 +65,17 @@ export function getUnreadNumData(callBack) {
         callBack(res)
     })
 }
+
+/**
+ * 清除未读消息弹窗
+ */
+export function getClearMessagePopupData(callBack) {
+    let params = {
+        method: "GET",
+    }
+    let url = `/message/clearPopup`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
 //#endregion
