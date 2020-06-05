@@ -53,3 +53,16 @@ export function getContentData(id, callBack) {
         callBack(res)
     })
 }
+
+/** 
+ * del message
+*/
+export function delMessage(id, callBack) {
+    let params = {
+        method: "GET",
+    }
+    let getUrl = `/message/delMessage?id=${id}`
+    FetchData(getUrl, params, (res) => {
+        callBack(res)
+    })
+}

@@ -5,35 +5,11 @@ class Footer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showFollow: false
         };
     }
-    componentDidMount() {
-        if (this.props.location.pathname === '/') {
-            this.setState({
-                showFollow: true
-            })
-        } else {
-            this.setState({
-                showFollow: false
-            })
-        }
-    }
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.location.pathname === '/') {
-            this.setState({
-                showFollow: true
-            })
-        } else {
-            this.setState({
-                showFollow: false
-            })
-        }
-    }
     render() {
-        let { showFollow } = this.state
         return (
-            <div className={showFollow ? 'footer' : 'footerMin'}>
+            <div className="footerMin">
                 <div className="follow-me">
                     <a href="https://github.com/passerma" rel="noopener noreferrer" target="_blank">
                         <i className="web-font">GitHub: passerma</i>

@@ -57,10 +57,10 @@ export default class HomeTitle extends React.Component {
     }
     getWea = () => {
         fetch("https://www.tianqiapi.com/api/?version=v1&appid=70528913&appsecret=nXnpSf8k")
-            .then((data) => { return data.json() })
             .catch((err) => { console.error("Error:", err) })
+            .then((data) => { return data ? data.json() : '' })
             .then((myJson) => {
-                if (myJson.city) {
+                if (myJson && myJson.city) {
                     this.createIcon(myJson.data[0].wea_img)
                     this.setState({
                         city: myJson.city,
@@ -82,7 +82,7 @@ export default class HomeTitle extends React.Component {
                         }
                     })
                 } else {
-                    console.error(myJson)
+                    console.error('错误')
                 }
             })
     }

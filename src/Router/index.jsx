@@ -15,6 +15,7 @@ import Footer from '../Components/Footer/Footer'
 import MusicPlay from '../Components/MusicPlay/MusicPlay'
 import LightDark from '../Components/LightDark/LightDark'
 import Ribbon from '../Components/Ribbon/Ribbon'
+import { message } from 'antd';
 
 class router extends React.Component {
     constructor(props) {
@@ -43,6 +44,25 @@ class router extends React.Component {
                 this.props.dispatch(setUserID(myJson.data.userid))
                 this.props.dispatch(setUserIntroduction(myJson.data.introduction))
             })
+        if (!(this.os().isPc)) {
+            message.info('由于本站未适配移动端，推荐PC端访问')
+        }
+    }
+    os = () => {
+        let ua = navigator.userAgent,
+            isWindowsPhone = /(?:Windows Phone)/.test(ua),
+            isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone,
+            isAndroid = /(?:Android)/.test(ua),
+            isFireFox = /(?:Firefox)/.test(ua),
+            isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua)),
+            isPhone = /(?:iPhone)/.test(ua) && !isTablet,
+            isPc = !isPhone && !isAndroid && !isSymbian;
+        return {
+            isTablet: isTablet,
+            isPhone: isPhone,
+            isAndroid: isAndroid,
+            isPc: isPc
+        };
     }
     render() {
         return (

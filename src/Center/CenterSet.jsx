@@ -81,7 +81,7 @@ class CenterSetForm extends React.Component {
                                         message: '请输入当前密码',
                                     },
                                 ],
-                            })(<Input.Password visibilityToggle={false} placeholder={passwordPlace ? '当前密码' : '********'}
+                            })(<Input type={passwordPlace ? 'password' : 'text'} autoComplete="off" placeholder={passwordPlace ? '当前密码' : '********'}
                                 onFocus={this.passwordFocus} />)}
                         </Form.Item>
                         {

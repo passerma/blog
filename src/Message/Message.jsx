@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './Message.less'
-import { Menu, Table, message, Badge, Skeleton, Divider } from 'antd';
+import { Menu, Table, message, Badge, Skeleton, Divider, Button, Modal } from 'antd';
 import { setUserMessageNum } from '../Redux/action';
 import { translateDateYMDHM } from '../CommonData/globalFun'
-import { getUnreadData, getAllData, getReadData, getContentData } from './api'
+import { getUnreadData, getAllData, getReadData, getContentData, delMessage } from './api'
 
+const { confirm } = Modal;
 
 class Messsage extends React.Component {
     constructor(props) {
@@ -45,6 +45,17 @@ class Messsage extends React.Component {
                 render(text, record) {
                     return <span>{translateDateYMDHM(record.time)}</span>
                 }
+            },
+            {
+                title: '操作',
+                dataIndex: 'oprate',
+                key: 'oprate',
+                width: 90,
+                align: 'center',
+                render: (text, record) => {
+                    return <Button title={record.isread === 0 ? '只可以删除已读消息噢' : '删除'} disabled={record.isread === 0}
+                        style={{ height: '25px' }} type="danger" onClick={() => this.delMessage(record)}>删除</Button>
+                }
             }
         ];
         this.unReadNum = undefined
@@ -59,7 +70,13 @@ class Messsage extends React.Component {
     }
 
     //#region 页面控制
+    /**
+     * menu click
+     */
     handleClick = e => {
+        if (this.dataLoading) {
+            return
+        }
         e.key === '1' && this.getAll()
         e.key === '2' && this.getUnread()
         e.key === '3' && this.getRead()
@@ -98,6 +115,37 @@ class Messsage extends React.Component {
                 })
             }
         })
+    }
+
+    /** 
+     * del message
+     */
+    delMessage = (record) => {
+        confirm({
+            title: '确定删除这条消息嘛，删除后不可恢复？',
+            onOk: () => {
+                this.dataLoading = true
+                this.state.openKey === '1' && this.setState({ allDataSourceLoading: true })
+                this.state.openKey === '2' && this.setState({ unreadDataSourceLoading: true })
+                this.state.openKey === '3' && this.setState({ readDataSourceLoading: true })
+                delMessage(record.id, (res) => {
+                    this.dataLoading = false
+                    if (res && res.ErrCode === 0) {
+                        message.success('删除成功')
+                        this.state.openKey === '1' && this.getAll()
+                        this.state.openKey === '2' && this.getUnread()
+                        this.state.openKey === '3' && this.getRead()
+                    } else {
+                        res && message.error(res.ErrMsg)
+                        this.state.openKey === '1' && this.setState({ allDataSourceLoading: false })
+                        this.state.openKey === '2' && this.setState({ unreadDataSourceLoading: false })
+                        this.state.openKey === '3' && this.setState({ readDataSourceLoading: false })
+                    }
+                })
+            },
+            okText: '确定',
+            cancelText: '取消'
+        });
     }
     //#endregion
 
@@ -204,19 +252,19 @@ class Messsage extends React.Component {
 
     render() {
         const { openKey, tableHeight, contentOpen, unreadDataSource, unreadDataSourceLoading, allDataSource, allDataSourceLoading,
-            readDataSource, readDataSourceLoading, contentLoading, contentData, contentTitle, contentTime } = this.state
+            readDataSource, readDataSourceLoading, contentLoading, contentTitle, contentTime } = this.state
 
-        const allRowSelection = {
-            onChange: this.allRowSelection
-        };
+        // const allRowSelection = {
+        //     onChange: this.allRowSelection
+        // };
 
-        const unreadRowSelection = {
-            onChange: this.unreadRowSelection
-        };
+        // const unreadRowSelection = {
+        //     onChange: this.unreadRowSelection
+        // };
 
-        const readRowSelection = {
-            onChange: this.readRowSelection
-        };
+        // const readRowSelection = {
+        //     onChange: this.readRowSelection
+        // };
 
         return (
             <div className="message-main">
@@ -242,7 +290,7 @@ class Messsage extends React.Component {
                         </div> */}
                         <div className="message-box-table">
                             <Table scroll={{ y: tableHeight }} dataSource={allDataSource} columns={this.columns}
-                                rowSelection={allRowSelection} rowKey={record => record.id} loading={allDataSourceLoading}
+                                rowKey={record => record.id} loading={allDataSourceLoading}
                                 locale={{ emptyText: allDataSourceLoading ? '加载中...' : '无任何消息' }} />
                         </div>
                     </div>
@@ -257,7 +305,7 @@ class Messsage extends React.Component {
                         </div> */}
                         <div className="message-box-table" ref="messageTable">
                             <Table scroll={{ y: tableHeight }} dataSource={unreadDataSource} columns={this.columns}
-                                rowSelection={unreadRowSelection} rowKey={record => record.id} loading={unreadDataSourceLoading}
+                                rowKey={record => record.id} loading={unreadDataSourceLoading}
                                 locale={{ emptyText: unreadDataSourceLoading ? '加载中...' : '无未读消息' }} />
                         </div>
                     </div>
@@ -270,7 +318,7 @@ class Messsage extends React.Component {
                         </div> */}
                         <div className="message-box-table">
                             <Table scroll={{ y: tableHeight }} dataSource={readDataSource} columns={this.columns}
-                                rowSelection={readRowSelection} rowKey={record => record.id} loading={readDataSourceLoading}
+                                rowKey={record => record.id} loading={readDataSourceLoading}
                                 locale={{ emptyText: readDataSourceLoading ? '加载中...' : '无已读消息' }} />
                         </div>
                     </div>
