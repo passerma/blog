@@ -30,6 +30,8 @@ class Navbar extends React.Component {
             this._updateTitle('找回密码', '300%')
         } else if (this.props.location.pathname === '/message') {
             this._updateTitle('消息中心', '300%')
+        } else if (this.props.location.pathname.indexOf('/info') !== -1) {
+            this._updateTitle('主页', '300%')
         }
     }
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -50,6 +52,8 @@ class Navbar extends React.Component {
             this._updateTitle('找回密码', '300%')
         } else if (nextProps.location.pathname === '/message') {
             this._updateTitle('消息中心', '300%')
+        } else if (nextProps.location.pathname.indexOf('/info') !== -1) {
+            this._updateTitle('主页', '300%')
         }
     }
 

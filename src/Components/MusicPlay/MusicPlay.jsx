@@ -452,7 +452,7 @@ class MusicPlay extends React.Component {
         localPlayList.unshift({
             author: value.artists[0].name,
             name: value.name,
-            img: value.artists[0].img1v1Url ? this.translateHttp(value.artists[0].img1v1Url) : '',
+            img: value.artists[0].picUrl ? this.translateHttp(value.artists[0].picUrl) : this.translateHttp(value.artists[0].img1v1Url),
             id: value.id
         })
         this.setState({
@@ -473,7 +473,7 @@ class MusicPlay extends React.Component {
             playProcess: 0,
             musicAuthor: value.artists[0].name,
             musicName: value.name,
-            musicImg: value.artists[0].img1v1Url ? this.translateHttp(value.artists[0].img1v1Url) : '',
+            musicImg: value.artists[0].picUrl ? this.translateHttp(value.artists[0].picUrl) : this.translateHttp(value.artists[0].img1v1Url),
             nowId: value.id
         })
         searchMusciUrl(value.id, (res) => {

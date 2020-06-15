@@ -77,6 +77,20 @@ export function translateDateYMDHM(createtime) {
     let m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
     return `${year}-${month}-${newDate} ${h}:${m}`
 }
+
+/** 
+ * 转换链接格式
+ */
+export function addLinkHttps(url) {
+    if (url) {
+        var http = /^http:\/\/.*/i.test(url);
+        var https = /^https:\/\/.*/i.test(url);
+        if (!http && !https) {
+            url = 'https://' + url;
+        }
+    }
+    return url
+}
 //#endregion
 
 //#region 日期相关

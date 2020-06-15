@@ -195,69 +195,80 @@
         }
 
         .article-main-box {
-            padding: 20px;
+            padding: 0 20px 10px 20px;
             min-height: 200px;
 
             .article-main-list {
-                margin-bottom: 20px;
+                position: relative;
 
-                .article-time {
-                    font-size: 14px;
-                    color: #000;
-                    font-weight: bold;
-                    margin: 0;
-                }
+                .article-list-box {
 
-                .article-title {
-                    font-size: 20px;
-                    font-weight: bold;
-                    padding: 0 0 10px 0;
-                    border-bottom: 1px solid #3d97cb;
-                    height: 40px;
-                    line-height: 40px;
+                    .article-title {
+                        margin-bottom: 0;
 
-                    .article-title-span {
-                        cursor: pointer;
-                        color: #0378bb;
+                        .article-title-link {
+                            color: #333;
+                            font-size: 28px;
+                            font-weight: 600;
 
-                        &:hover {
-                            color: red;
+                            &:hover {
+                                color: #6b6b6b;
+                            }
+                        }
+                    }
+
+                    .article-time {
+                        color: #6b6b6b;
+                        font-size: 12px;
+                    }
+
+                    .article-content {
+                        margin: 15px 0;
+                        font-size: 16px;
+                        color: #6b6b6b;
+                    }
+
+                    .article-msg {
+                        margin-bottom: 25px;
+                        text-align: right;
+
+                        .article-btn {
+                            background: #fff;
+                            padding: 5px 20px;
+                            border: 1px solid #333;
+                            color: #333;
+                            font-size: 12px;
+                            transition: all .2s linear;
+                            cursor: pointer;
+
+                            &:hover {
+                                background: #333;
+                                color: #fff;
+                                padding: 5px 20px;
+                                border: 1px solid #333;
+                            }
+                        }
+
+                        .article-msg-span {
+                            color: #333;
+                            font-size: 12px;
                         }
                     }
                 }
+            }
 
-                .article-content {
-                    margin: 10px 0 0 0;
-                    height: 30px;
-                    line-height: 30px;
+            .article-main-list-has {
+                padding-left: 20%;
 
-                    .article-content-little {
-                        display: inline-block;
-                        width: ~"calc(100% - 100px)";
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        color: #000;
-                        font-size: 14px;
-                    }
-
-                    .ant-btn {
-                        height: 20px;
-                        float: right;
-                        font-size: 12px;
-                        margin-top: 5px;
-                    }
+                .article-list-box {
+                    padding-left: 10px;
                 }
 
-                .article-msg {
-                    margin-top: 5px;
-                    text-align: right;
-                    color: #a3a3a3;
-                    font-size: 12px;
-
-                    .article-msg-update {
-                        margin-right: 10px;
-                    }
+                .article-img {
+                    position: absolute;
+                    left: 0;
+                    top: 10px;
+                    width: 20%;
                 }
             }
         }

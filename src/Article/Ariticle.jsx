@@ -282,6 +282,7 @@ export default class Article extends React.Component {
         let orderClass = showOrder ? 'article-oprate-search-input show' : 'article-oprate-search-input'
 
         let oprateClass = fixed ? 'article-oprate fixed' : 'article-oprate'
+
         return (
             <div className="article" ref="article">
                 <div className="article-main">
@@ -383,24 +384,35 @@ export default class Article extends React.Component {
                     <ul className="article-main-box">
                         <Skeleton loading={loading} active>
                             {
-                                blogData.length > 0 ? blogData.map((value, index) => <li className="article-main-list" key={index}>
-                                    <p className="article-time">{this._translateDate(value.createtime, false)}</p>
-                                    <div className="article-title">
-                                        <Link className="article-title-span" to={`/article/${value.id}`}>{value.title}</Link>
-                                    </div>
-                                    <div className="article-content">
-                                        <span className="article-content-little">摘要：{this._translateText(value.text)}</span>
-                                        <Button>
-                                            <Link to={`/article/${value.id}`}>查看全文</Link>
-                                        </Button>
-                                    </div>
-                                    <div className="article-msg">
-                                        <Tag color="magenta" style={{ float: 'left' }}>{value.class ? value.class : '未分类'}</Tag>
-                                        <span className="article-msg-update">最后更新：{this._translateDate(value.updatetime, true)}</span>
-                                        <span className="article-msg-update">阅读 ({value.look})</span>
-                                        <span>评论 ({value.commentNum})</span>
-                                    </div>
-                                </li>) : <Empty description="未找到相关文章" />
+                                blogData.length > 0 ? blogData.map((value, index) =>
+                                    <li className={value.beauti === 1 ? 'article-main-list article-main-list-has' : 'article-main-list'}
+                                        key={index}>
+                                        {value.beauti === 1 && <img className="article-img" src={value.bgurl} alt="海报" />}
+                                        <div className="article-list-box">
+                                            <h2 className="article-title">
+                                                <Link className="article-title-link" to={`/article/${value.id}`}>{value.title}</Link>
+                                            </h2>
+                                            <div className="article-time">
+                                                创建于：{this._translateDate(value.createtime, false)}
+                                                <span style={{ margin: '0 10px' }}>·</span>
+                                                最后更新：{this._translateDate(value.updatetime, true)}
+                                                <Tag style={{ marginLeft: '15px' }} color="magenta">{value.class ? value.class : '未分类'}</Tag>
+                                            </div>
+                                            <div className="article-content">
+                                                {this._translateText(value.text).slice(0, 100)}...
+                                        </div>
+                                            <div className="article-msg">
+                                                <Link className="article-btn-link" to={`/article/${value.id}`}>
+                                                    <button className="article-btn">继续阅读</button>
+                                                </Link>
+                                                <div style={{ display: 'inline-block', width: '140px' }}>
+                                                    <span style={{ marginLeft: '20px' }} className="article-msg-span">阅读 ({value.look})</span>
+                                                    <span style={{ margin: '0 8px' }}>·</span>
+                                                    <span className="article-msg-span">评论 ({value.commentNum})</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>) : <Empty description="未找到相关文章" />
                             }
                         </Skeleton>
                     </ul>

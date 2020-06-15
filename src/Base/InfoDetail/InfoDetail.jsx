@@ -3,6 +3,7 @@ import { Popover, Spin, Button, message } from 'antd';
 import './InfoDetail.less'
 import { COMMON_URL, FetchData } from '../../CommonData/api'
 import { translateXSSText } from '../../CommonData/globalFun'
+import { Link } from 'react-router-dom';
 class InfoDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -44,6 +45,7 @@ class InfoDetail extends React.Component {
                     this.info.avatar = res.data.avatar
                     this.info.realname = res.data.realname
                     this.info.introduction = res.data.introduction
+                    this.info.userid = res.data.userid
                     this.setState({
                         loading: false
                     })
@@ -55,7 +57,7 @@ class InfoDetail extends React.Component {
     }
     render() {
         let { loading } = this.state
-        let { introduction, avatar, realname } = this.info
+        let { introduction, avatar, realname, userid } = this.info
         const content = (
             <Spin spinning={loading}>
                 <div className="infoDetail-wrap">
@@ -68,7 +70,7 @@ class InfoDetail extends React.Component {
                                 <div className="infoDetail-name" title={realname}>{realname}</div>
                                 <div className="infoDetail-text" title='该用户什么都没留下'>{introduction ? translateXSSText(introduction)
                                     : '该用户什么都没留下'}</div>
-                                <Button className="infoDetail-btn">去TA主页</Button>
+                                <Button className="infoDetail-btn"><Link to={`/info/${userid}`}>去TA主页</Link></Button>
                             </span>
                         </Fragment>
                     }

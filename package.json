@@ -151,6 +151,7 @@
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "react-router": "^5.1.2",
-    "react-router-dom": "^5.1.2"
+    "react-router-dom": "^5.1.2",
+    "react-snap": "^1.23.0"
   }
 }

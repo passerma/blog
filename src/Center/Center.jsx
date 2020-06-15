@@ -74,7 +74,7 @@ class Center extends React.Component {
     }
 
     render() {
-        const { username, userInfo } = this.props
+        const { username, userInfo, userid } = this.props
         let { avatar, introduction } = userInfo
         let { showAvatar } = this.state
         return (
@@ -104,6 +104,10 @@ class Center extends React.Component {
                         <Button>
                             <Link to="/message">消息中心</Link>
                         </Button>
+                        <div style={{ height: '10px' }}></div>
+                        <Button>
+                            <Link to={`/info/${userid}`}>自己主页</Link>
+                        </Button>
                     </div>
                 </div>
                 <Tabs defaultActiveKey="1" className="center-tabs-main">
@@ -131,9 +135,11 @@ class Center extends React.Component {
 
 function mapStateToProps(state) {
     let { username } = state.setUserInfo
+    let { userid } = state.setUserID
     return {
         username,
-        userInfo: state.setUserInfo
+        userInfo: state.setUserInfo,
+        userid
     }
 }
 

@@ -1,0 +1,149 @@
+.UserInfo {
+    padding: 20px;
+    height: ~"calc(100% - 80px)";
+    overflow: hidden;
+
+    .UserInfo-main {
+        overflow: auto;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+
+        .UserInfo-card {
+            margin: 0 10px;
+
+            .UserInfo-card-main {
+                cursor: default;
+
+                .UserInfo-card-img {
+                    width: 240px;
+                    height: 180px;
+                    text-align: center;
+                    line-height: 190px;
+                    position: relative;
+
+                    img {
+                        position: absolute;
+                        top: 20px;
+                        left: 50%;
+                        margin-left: -77px;
+                        width: 150px;
+                        height: 150px;
+                        border: 4px solid #EEE;
+                        border-radius: 50%;
+                        background-repeat: repeat;
+                        background-size: contain;
+                    }
+
+                    .UserInfo-card-hover {
+                        position: absolute;
+                        opacity: 0;
+                        top: 20px;
+                        left: 50%;
+                        margin-left: -77px;
+                        width: 150px;
+                        height: 150px;
+                        border: 4px solid #EEE;
+                        border-radius: 50%;
+                        text-align: center;
+                        line-height: 146px;
+                        color: white;
+                        background: rgba(0, 0, 0, 0.5);
+
+                        &:hover {
+                            opacity: 1;
+                        }
+                    }
+                }
+
+                .ant-card-body {
+                    padding: 0 10px;
+                    text-align: center;
+                }
+
+                .UserInfo-card-box {
+                    .UserInfo-card-name {
+                        color: rgba(0, 0, 0, 0.85);
+                        word-wrap: break-word;
+                    }
+
+                    .UserInfo-card-descrip {
+                        color: rgba(0, 0, 0, 0.45);
+                        font-size: 14px;
+                        margin-bottom: 10px;
+                        text-align: center;
+                        word-break: break-all;
+                    }
+
+                    .UserInfo-btn {
+                        margin-bottom: 10px;
+                    }
+                }
+
+                .UserInfo-card-link {
+                    font-size: 18px;
+                    text-align: center;
+
+                    a {
+                        color: rgba(0, 0, 0, 0.65);
+                    }
+                }
+            }
+
+            .userInfo-all-box {
+                width: 500px;
+                background: #fff;
+                margin-bottom: 20px;
+
+                .userInfo-all-title {
+                    border: 1px solid #f2f2f5;
+                    position: relative;
+                    height: 38px;
+                    padding: 0 16px;
+                    line-height: 38px;
+                    overflow: hidden;
+                    font-size: 14px;
+                    font-weight: 800;
+                    color: rgb(51, 51, 51);
+                }
+
+                .userInfo-all-main {
+                    padding: 16px;
+
+                    .userInfo-all-item {
+                        line-height: 24px;
+
+                        .userInfo-all-name {
+                            float: left;
+                            width: 60px;
+                            font-size: 12px;
+                            text-align: right;
+                            color: #808080;
+                            line-height: 24px;
+                        }
+
+                        .userInfo-all-text {
+                            margin-left: 60px;
+                            display: block;
+                            margin-left: 60px;
+                            word-break: break-all;
+                            line-height: 24px;
+                            color: #333;
+
+                            a {
+                                color: #eb7350;
+
+                                &:hover {
+                                    color: #eb7350;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}

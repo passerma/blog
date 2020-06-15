@@ -104,20 +104,6 @@ class DetailCommentsForm extends React.Component {
             commentsLength: data.length
         })
     }
-
-    /** 
-     * 复制到剪贴板
-    */
-    clickcCopy = (str) => {
-        let save = function (e) {
-            e.clipboardData.setData('text/plain', str);
-            e.preventDefault();
-        };
-        document.addEventListener('copy', save);
-        document.execCommand('copy');
-        document.removeEventListener('copy', save);
-        message.success('复制成功')
-    }
     //#endregion
 
     //#region 删除修改相关
