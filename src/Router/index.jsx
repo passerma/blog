@@ -15,7 +15,8 @@ import Footer from '../Components/Footer/Footer'
 import MusicPlay from '../Components/MusicPlay/MusicPlay'
 import LightDark from '../Components/LightDark/LightDark'
 import Ribbon from '../Components/Ribbon/Ribbon'
-import { message } from 'antd';
+import { message, Modal, Button } from 'antd';
+import imgURL from '../imgs/passerma-wechat.png';
 
 class router extends React.Component {
     constructor(props) {
@@ -45,7 +46,19 @@ class router extends React.Component {
                 this.props.dispatch(setUserIntroduction(myJson.data.introduction))
             })
         if (!(this.os().isPc)) {
-            message.info('由于本站未适配移动端，推荐PC端访问')
+            // message.info('由于本站未适配移动端，推荐PC端访问')
+            Modal.info({
+                title: '由于本站未适配移动端，推荐PC端访问，或者前往passerma微信小程序版',
+                icon: null,
+                maskClosable: true,
+                okText: '确定',
+                content: (
+                    <div>
+                        <img style={{ width: '100%', marginTop: '16px' }} src={imgURL} alt="微信搜索passerma" />
+                    </div>
+                ),
+                onOk() { },
+            });
         }
     }
     os = () => {

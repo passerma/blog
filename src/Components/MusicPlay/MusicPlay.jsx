@@ -1,7 +1,7 @@
 import React from 'react';
 import './MusicPlay.less'
 import { Icon, Popover, Input, Skeleton, Empty, message, Button } from 'antd'
-import { searchMusci, searchMusciUrl } from '../api'
+import { searchMusci, searchMusciUrl, searchMusciDetail } from '../api'
 import { setStorage, getStorage } from '../../CommonData/globalFun'
 import bgImg from '../../imgs/music-play.jpg'
 
@@ -28,7 +28,7 @@ class MusicPlay extends React.Component {
             showSearchData: false,
             musicAuthor: '王菊',
             musicName: '苦尽甘来',
-            musicImg: 'https://p2.music.126.net/2JmaVc6vt7KHu3KTvv4Hsg==/109951164553024883.jpg',
+            musicImg: 'https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg',
             nowId: 1409975646,
             playType: '列表循环',
             playLoop: false,
@@ -37,7 +37,8 @@ class MusicPlay extends React.Component {
         };
         this.musicSound = 50;
         this.playIndex = 0;
-        this.offset = 0
+        this.offset = 0;
+        this.noneImg = 'https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg'
     }
 
     componentDidMount() {
@@ -53,7 +54,8 @@ class MusicPlay extends React.Component {
                     }
                     if (res.ErrCode === 0) {
                         this.setState({
-                            musciUrl: res.data.url ? this.translateHttp(res.data.url) : ''
+                            musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                            musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg
                         })
                     } else {
                         message.error('加载歌曲失败')
@@ -63,7 +65,6 @@ class MusicPlay extends React.Component {
                 this.setState({
                     musicAuthor: localPlayList[0].author,
                     musicName: localPlayList[0].name,
-                    musicImg: localPlayList[0].img,
                     nowId: localPlayList[0].id
                 })
                 searchMusciUrl(localPlayList[0].id, (res) => {
@@ -73,7 +74,8 @@ class MusicPlay extends React.Component {
                     }
                     if (res.ErrCode === 0) {
                         this.setState({
-                            musciUrl: res.data.url ? this.translateHttp(res.data.url) : ''
+                            musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                            musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg
                         })
                     } else {
                         message.error('加载歌曲失败')
@@ -170,7 +172,6 @@ class MusicPlay extends React.Component {
             playProcess: 0,
             musicAuthor: '王菊',
             musicName: '苦尽甘来',
-            musicImg: 'https://p2.music.126.net/2JmaVc6vt7KHu3KTvv4Hsg==/109951164553024883.jpg',
             nowId: 1409975646,
         })
         audio.pause()
@@ -186,12 +187,14 @@ class MusicPlay extends React.Component {
                 if (audioPlay) {
                     this.setState({
                         musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                        musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg,
                         playProcess: 0,
                     })
                     audio.play()
                 } else {
                     this.setState({
                         musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                        musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg,
                         playProcess: 0,
                     })
                 }
@@ -473,7 +476,6 @@ class MusicPlay extends React.Component {
             playProcess: 0,
             musicAuthor: value.artists[0].name,
             musicName: value.name,
-            musicImg: value.artists[0].picUrl ? this.translateHttp(value.artists[0].picUrl) : this.translateHttp(value.artists[0].img1v1Url),
             nowId: value.id
         })
         searchMusciUrl(value.id, (res) => {
@@ -488,12 +490,14 @@ class MusicPlay extends React.Component {
                 if (audioPlay) {
                     this.setState({
                         musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                        musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg,
                         playProcess: 0,
                     })
                     audio.play()
                 } else {
                     this.setState({
                         musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                        musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg,
                         playProcess: 0,
                     })
                 }
@@ -552,7 +556,6 @@ class MusicPlay extends React.Component {
             playProcess: 0,
             musicAuthor: music.author,
             musicName: music.name,
-            musicImg: music.img,
             nowId: music.id,
         })
         searchMusciUrl(music.id, (res) => {
@@ -567,12 +570,14 @@ class MusicPlay extends React.Component {
                 if (audioPlay) {
                     this.setState({
                         musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                        musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg,
                         playProcess: 0,
                     })
                     audio.play()
                 } else {
                     this.setState({
                         musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                        musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg,
                         playProcess: 0,
                     })
                 }
@@ -607,7 +612,6 @@ class MusicPlay extends React.Component {
                     playProcess: 0,
                     musicAuthor: musicPlay.author,
                     musicName: musicPlay.name,
-                    musicImg: musicPlay.img,
                     nowId: musicPlay.id,
                 })
                 searchMusciUrl(musicPlay.id, (res) => {
@@ -622,12 +626,14 @@ class MusicPlay extends React.Component {
                         if (audioPlay) {
                             this.setState({
                                 musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                                musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg,
                                 playProcess: 0,
                             })
                             audio.play()
                         } else {
                             this.setState({
                                 musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                                musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg,
                                 playProcess: 0,
                             })
                         }
@@ -682,7 +688,6 @@ class MusicPlay extends React.Component {
             playProcess: 0,
             musicAuthor: value.author,
             musicName: value.name,
-            musicImg: value.img,
             nowId: value.id,
         })
         searchMusciUrl(value.id, (res) => {
@@ -697,12 +702,14 @@ class MusicPlay extends React.Component {
                 if (audioPlay) {
                     this.setState({
                         musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                        musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg,
                         playProcess: 0,
                     })
                     audio.play()
                 } else {
                     this.setState({
                         musciUrl: res.data.url ? this.translateHttp(res.data.url) : '',
+                        musicImg: res.data.picUrl ? this.translateHttp(res.data.picUrl) : this.noneImg,
                         playProcess: 0,
                     })
                 }

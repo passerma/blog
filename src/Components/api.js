@@ -1,5 +1,6 @@
 import { FetchData } from '../CommonData/api'
 
+//#region 歌曲相关
 /** 
  * 查询歌曲
 */
@@ -25,6 +26,21 @@ export function searchMusciUrl(id, callBack) {
         callBack(res)
     })
 }
+
+/** 
+ * 查询歌曲u详情
+*/
+export function searchMusciDetail(id, callBack) {
+    let params = {
+        method: "GET",
+    }
+    let url = `/tool/music/detail?id=${id}`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
+
+//#endregion
 
 //#region 个人中心相关
 /** lock
