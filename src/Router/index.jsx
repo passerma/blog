@@ -12,10 +12,11 @@ import { setLogin, setUserInfoName, setUserInfoAvatar, setUserID, setUserIntrodu
 import PrivateRoute from './PrivateRoute'
 import { COMMON_URL } from '../CommonData/api'
 import Footer from '../Components/Footer/Footer'
-import MusicPlay from '../Components/MusicPlay/MusicPlay'
+// import MusicPlay from '../Components/MusicPlay/MusicPlay'
+import MusicPlay from '../Components/MusicPlay/MusicPlayNew'
 import LightDark from '../Components/LightDark/LightDark'
 import Ribbon from '../Components/Ribbon/Ribbon'
-import { message, Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import imgURL from '../imgs/passerma-wechat.png';
 
 class router extends React.Component {
