@@ -152,3 +152,16 @@ export function replayComments(id, data, callBack) {
         callBack(res)
     })
 }
+
+/** 
+ * 
+*/
+export function getClassData(callBack) {
+    let params = {
+        method: "GET",
+    }
+    let url = `/blog/class`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}

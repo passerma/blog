@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom"
-import { Skeleton, message, Input, Empty, Tag, Select, Badge, Icon, Divider } from 'antd';
-import { getList, getTopArticle } from './api/api';
+import { Skeleton, message, Input, Empty, Tag, Select, Badge, Icon, Divider, Spin } from 'antd';
+import { getList, getTopArticle, getClassData } from './api/api';
 import './Ariticle.less';
 
 const { Search } = Input;
@@ -26,6 +26,7 @@ export default class Article extends React.Component {
             hasOrder: false,
             orderValue: '',
             fixed: false,
+            classData: [],
             // 值联动
             searchChangeValue: '',
             classChangeValue: [],
@@ -36,7 +37,7 @@ export default class Article extends React.Component {
     componentDidMount() {
         this.refs.article.addEventListener('scroll', this.articleScroll)
         getList('', '', '', (res) => {
-            if (res.ErrCode === 0) {
+            if (res && res.ErrCode === 0) {
                 this.setState({
                     blogData: res.data,
                     loading: false
@@ -49,6 +50,13 @@ export default class Article extends React.Component {
             if (res && res.ErrCode === 0) {
                 this.setState({
                     topArticle: res.data,
+                })
+            }
+        })
+        getClassData(res => {
+            if (res && res.ErrCode === 0) {
+                this.setState({
+                    classData: res.data,
                 })
             }
         })
@@ -271,7 +279,9 @@ export default class Article extends React.Component {
     render() {
         let { blogData, loading, showSearch, hasSearch, showClass, openSelect, hasClass, classValueNum,
             showOrder, openOrderSelect, hasOrder, fixed, orderChangeValue, classChangeValue, searchChangeValue,
-            topArticle } = this.state
+            topArticle, classData } = this.state
+        const options = classData.map(d => <Option key={d.class}>{d.class}</Option>);
+
         let searchBtnClass = hasSearch ? 'article-oprate-search has' : 'article-oprate-search'
         let searchClass = showSearch ? 'article-oprate-search-input show' : 'article-oprate-search-input'
 
@@ -324,11 +334,13 @@ export default class Article extends React.Component {
                                     onChange={this.selectClassChange}
                                     loading={loading}
                                     value={classChangeValue}
+                                    notFoundContent="正在加载..."
                                 >
-                                    <Option key={'树莓派'}>树莓派</Option>
+                                    {/* <Option key={'树莓派'}>树莓派</Option>
                                     <Option key={'nodejs'}>nodejs</Option>
                                     <Option key={'插件'}>插件</Option>
-                                    <Option key={'关于'}>关于</Option>
+                                    <Option key={'关于'}>关于</Option> */}
+                                    {options}
                                 </Select>
                             </div>
                             <div className={orderClass}>

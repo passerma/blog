@@ -68,7 +68,7 @@ class UserInfo extends React.Component {
                                         cover={
                                             <div className="UserInfo-card-img">
                                                 <img alt="头像" src={
-                                                    info.avatar ? `${COMMON_URL}/file/get/avatar?avatar=${info.avatar}&t=${this.randomImg}` :
+                                                    info.avatar ? `${COMMON_URL}/file/get/avatar?avatar=${info.avatar}` :
                                                         `${COMMON_URL}/file/get/avatar`} />
                                             </div>
                                         }

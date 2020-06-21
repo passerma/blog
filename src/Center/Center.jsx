@@ -23,7 +23,6 @@ class Center extends React.Component {
         this.state = {
             showAvatar: false
         };
-        this.randomImg = Math.random()
     }
 
     loginOut = () => {
@@ -64,10 +63,7 @@ class Center extends React.Component {
     }
 
     onAvatarOk = (avatar) => {
-        let avatarSrc = this.props.userInfo.avatar
-        this.randomImg = Math.random()
-        let navImg = document.querySelector('.nav-bar-item-img')
-        navImg.src = `${COMMON_URL}/file/get/avatar?avatar=${avatarSrc}&t=${this.randomImg}`
+        this.props.dispatch(setUserInfoAvatar(avatar))
         this.setState({
             showAvatar: false
         })
@@ -87,7 +83,7 @@ class Center extends React.Component {
                         cover={
                             <div className="center-card-img">
                                 <img alt="头像" src={
-                                    avatar ? `${COMMON_URL}/file/get/avatar?avatar=${avatar}&t=${this.randomImg}` :
+                                    avatar ? `${COMMON_URL}/file/get/avatar?avatar=${avatar}` :
                                         `${COMMON_URL}/file/get/avatar`} />
                                 <div className="center-card-hover" onClick={this.showAvatarModel}>更换头像</div>
                             </div>

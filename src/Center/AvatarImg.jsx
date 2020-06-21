@@ -53,14 +53,12 @@ export default class UpImgCom extends React.Component {
                     })
                 })
                 .then(res => {
-                    let { avatar } = this.props
                     this.setState({
-                        loading: false,
-                        lookImg: `${COMMON_URL}/file/get/avatar?avatar=${avatar}`,
+                        loading: false
                     })
                     if (res.ErrCode === 0) {
                         message.success('修改成功')
-                        this.props.onOk(canvasScaled.toDataURL("image/png"))
+                        this.props.onOk(res.data.avatar)
                     } else {
                         message.error(res.ErrMsg)
                     }

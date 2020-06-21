@@ -191,7 +191,7 @@ class FooGuardTestForm extends React.Component {
                                 <div className="detail-title">{title}</div>
                                 <div ref="detail" className="detail-content">{title}</div>
                                 <div className="detail-msg">
-                                    <Tag color="magenta" style={{ float: 'left', marginTop: '2px' }}>{blogClass}</Tag>
+                                    <Tag color="magenta" style={{ float: 'left', marginTop: '2px' }}>{blogClass || '未分类'}</Tag>
                                     <span className="detail-msg-createTime">创建 {this._translateDate(createTime)}</span>
                                     <span className="detail-msg-updateTime">最后更新 {this._translateDate(updateTime)}</span>
                                     <span className="detail-msg-updateTime">阅读({look})</span>
