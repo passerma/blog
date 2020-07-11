@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Input, Form, Icon, Button, Modal, message, Tooltip } from 'antd';
-import { newComments } from '../api/api'
+import { newComment } from '../api/api'
 import './AddComments.less'
 
 const { TextArea } = Input;
@@ -28,20 +28,18 @@ class AddCommentsForm extends React.Component {
             if (!err) {
                 let comments = values.comments
                 let user = values.user
-                let touser = ''
                 let data = {
                     comments,
                     user,
-                    touser
                 }
                 if (that.props.isLogin) {
-                    newComments(id, data, (res) => {
-                        if (res.ErrCode === 0) {
-                            message.success(res.ErrMsg)
+                    newComment(id, data, (res) => {
+                        if (res && res.ErrCode === 0) {
+                            message.success('评论成功')
                             that.props.addCommentsSus()
                             that.props.form.resetFields()
                         } else {
-                            message.error(res.ErrMsg)
+                            res && message.error(res.ErrMsg)
                         }
                     })
                     return
@@ -57,13 +55,13 @@ class AddCommentsForm extends React.Component {
                     cancelText: '取消',
                     centered: true,
                     onOk() {
-                        newComments(id, data, (res) => {
-                            if (res.ErrCode === 0) {
-                                message.success(res.ErrMsg)
+                        newComment(id, data, (res) => {
+                            if (res && res.ErrCode === 0) {
+                                message.success('评论成功')
                                 that.props.addCommentsSus()
                                 that.props.form.resetFields()
                             } else {
-                                message.error(res.ErrMsg)
+                                res && message.error(res.ErrMsg)
                             }
                         })
                     },

@@ -64,41 +64,27 @@ export function getComments(id, callBack) {
         });
 }
 
+
 /** 
  * 新建评论
 */
-export function newComments(id, data, callBack) {
-    let url = `${COMMON_URL}/blog/detail/newcomments?id=${id}`
+export function newComment(id, data, callBack) {
+    let url = `/blog/detail/newComment?id=${id}`
     let comments = data.comments
     let user = data.user
-    let touser = data.touser ? data.touser : ''
     let opts = {
         method: 'POST',
-        credentials: 'include',
         headers: {
             'content-type': 'application/json'
         },
         body: JSON.stringify({
             comments: comments,
-            user: user,
-            touser: touser
+            user: user
         })
     }
-    fetch(url, opts)
-        .then((response) => {
-            return response.json();
-        })
-        .then((myJson) => {
-            if (myJson.ErrCode !== 0) {
-                if (callBack && typeof (callBack) === "function") {
-                    callBack(myJson);
-                }
-                return
-            }
-            if (callBack && typeof (callBack) === "function") {
-                callBack(myJson);
-            }
-        });
+    FetchData(url, opts, (res) => {
+        callBack(res)
+    })
 }
 
 /** 
@@ -134,7 +120,7 @@ export function modifyComments(id, comments, callBack) {
 }
 
 /** 
- * 新建评论
+ * 新建评论 旧
 */
 export function replayComments(id, data, callBack) {
     let url = `/blog/detail/replaycomments?id=${id}`
@@ -154,7 +140,47 @@ export function replayComments(id, data, callBack) {
 }
 
 /** 
- * 
+ * 回复评论
+*/
+export function replayComment(id, data, callBack) {
+    let url = `/blog/detail/replaycomment?id=${id}`
+    let opts = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            ...data
+        })
+    }
+    FetchData(url, opts, (res) => {
+        callBack(res)
+    })
+}
+
+/** 
+ * 回复二级评论
+*/
+export function repliedComment(id, data, callBack) {
+    let url = `/blog/detail/repliedComment?id=${id}`
+    let opts = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            ...data
+        })
+    }
+    FetchData(url, opts, (res) => {
+        callBack(res)
+    })
+}
+
+/** 
+ * 获取分类
 */
 export function getClassData(callBack) {
     let params = {
@@ -165,3 +191,25 @@ export function getClassData(callBack) {
         callBack(res)
     })
 }
+
+//#region 点赞
+export function getlikeData(id, callBack) {
+    let params = {
+        method: "GET",
+    }
+    let url = `/blog/detail/likeData?id=${id}`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
+
+export function postlikeData(id, callBack) {
+    let params = {
+        method: "POST",
+    }
+    let url = `/blog/detail/likeData?id=${id}`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
+//#endregion

@@ -280,7 +280,7 @@ class LoginForm extends React.Component {
             <div className="login">
                 {
                     showLogin && <Fragment>
-                        <div className="login-register-title">登录到不爱骑马的路人马博客</div>
+                        <div className="login-register-title">登录到「PASSERMA」博客</div>
                         <Form onSubmit={this.handleSubmit} className="login-form">
                             <Form.Item>
                                 {
@@ -326,7 +326,7 @@ class LoginForm extends React.Component {
                 {/* 注册 */}
                 {
                     !showLogin && <Fragment>
-                        <div className="login-register-title">欢迎您注册不爱骑马的路人马博客</div>
+                        <div className="login-register-title">欢迎您注册「PASSERMA」博客</div>
                         <Form onSubmit={this.handleSubmit} className="login-form">
                             <Form.Item className="login-form-realname">
                                 {

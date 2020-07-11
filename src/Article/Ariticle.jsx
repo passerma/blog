@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom"
-import { Skeleton, message, Input, Empty, Tag, Select, Badge, Icon, Divider, Spin } from 'antd';
+import { Skeleton, message, Input, Empty, Tag, Select, Badge, Icon, Divider } from 'antd';
 import { getList, getTopArticle, getClassData } from './api/api';
 import './Ariticle.less';
 

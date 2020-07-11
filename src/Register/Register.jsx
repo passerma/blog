@@ -196,16 +196,16 @@ class LoginForm extends React.Component {
                     successRe ? <Fragment>
                         <Card className="regi-suss" title="注册成功" bordered={false} style={{ width: 300 }}>
                             <p><a href="https://www.passerma.com/center">前往个人中心</a></p>
-                            <p><a href="https://www.passerma.com">前往不爱骑马的路人马博客</a></p>
+                            <p><a href="https://www.passerma.com">前往PASSERMA博客</a></p>
                             <p><a href="https://go.passerma.com">前往PM极简导航</a></p>
                             <Button type="primary" onClick={() => {
-                                window.opener=null;
-                                window.open('','_self');
+                                window.opener = null;
+                                window.open('', '_self');
                                 window.close()
                             }}>关闭当前页</Button>
                         </Card>
                     </Fragment> : <Fragment>
-                            <div className="login-register-title">欢迎您注册不爱骑马的路人马博客</div>
+                            <div className="login-register-title">欢迎您注册「PASSERMA」博客</div>
                             <Form onSubmit={this.handleSubmit} className="login-form">
                                 <Form.Item className="login-form-realname">
                                     {

@@ -1,11 +1,15 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { getDatail } from '../api/api'
-import { Skeleton, BackTop, Empty, message, Tag, Anchor } from 'antd';
+import { getDatail, getlikeData, postlikeData } from '../api/api'
+import { Skeleton, BackTop, Empty, message, Tag, Anchor, Statistic, Icon } from 'antd';
 import './Detail.less';
 import './AddComments'
 import AddComments from './AddComments';
 import DetailComments from './DetailComments'
+
+const MyIcon = Icon.createFromIconfontCN({
+    scriptUrl: '//at.alicdn.com/t/font_1910007_ojt6gfzurem.js', // 在 iconfont.cn 上生成
+});
 
 class FooGuardTestForm extends React.Component {
     constructor(props) {
@@ -21,10 +25,15 @@ class FooGuardTestForm extends React.Component {
             blogClass: '',
             loadingAnchor: true,
             AnchorLink: null,
-            commentsLength: 0
+            commentsLength: 0,
+            likeNum: 0,
+            collectNum: 0,
+            isLike: false,
+            isCanLike: false
         };
         this.blogText = '';
         this.minLinkNum = 5;
+        this.isLikeLoading = false
     }
     componentDidMount() {
         let id = this.props.match.params.id
@@ -41,7 +50,9 @@ class FooGuardTestForm extends React.Component {
                     blogClass: data.class,
                     blogText: data.text,
                     noneArticle: false,
-                    commentsLength: data.commentNum
+                    commentsLength: data.commentNum,
+                    likeNum: data.likeNum,
+                    collectNum: data.collectNum
                 }, () => {
                     this.refs.detail.innerHTML = data.content
                     let allPre = document.querySelectorAll('.detail-content pre')
@@ -69,6 +80,14 @@ class FooGuardTestForm extends React.Component {
                         loading: false,
                     })
                 }
+            }
+        })
+        getlikeData(id, res => {
+            if (res && res.ErrCode === 0) {
+                this.setState({
+                    isLike: res.data.isLike,
+                    isCanLike: true
+                })
             }
         })
     }
@@ -178,9 +197,34 @@ class FooGuardTestForm extends React.Component {
     }
     //#endregion
 
+    //#region 底部功能
+    /**
+     * 设置点赞
+     */
+    postLike = () => {
+        if (!this.state.isCanLike) {
+            message.info('登录后才可以点赞噢!')
+        } else {
+            if (this.isLikeLoading) return
+            let id = this.props.match.params.id
+            this.isLikeLoading = true
+            postlikeData(id, res => {
+                this.isLikeLoading = false
+                if (res && res.ErrCode === 0) {
+                    this.setState({
+                        isLike: res.data.isLike,
+                        likeNum: res.data.likeNum
+                    })
+                } else {
+                    res && message.error(res.ErrMsg)
+                }
+            })
+        }
+    }
+    //#endregion
     render() {
         let { loading, title, createTime, updateTime, commentsLength, noneArticle, articleVisible, look,
-            blogClass, AnchorLink } = this.state
+            blogClass, AnchorLink, likeNum, isLike } = this.state
 
         return (
             <div className="detail">
@@ -188,14 +232,34 @@ class FooGuardTestForm extends React.Component {
                     {
                         noneArticle ? <Empty style={{ marginTop: '20px' }} description={articleVisible ? '对应文章不存在' : '文章已被删除!!'} /> :
                             <div className="detail-main">
-                                <div className="detail-title">{title}</div>
-                                <div ref="detail" className="detail-content">{title}</div>
+                                <div className="detail-title">
+                                    <h1>{title}</h1>
+                                </div>
+                                <div className="detail-title-more">
+                                    <Icon type="edit" />
+                                    <span style={{ marginLeft: '5px', marginRight: '20px' }}>{this._translateDate(updateTime)}</span>
+                                    <Icon type="eye" />
+                                    <span style={{ marginLeft: '5px', marginRight: '20px' }}>{look}</span>
+                                    <Icon type="message" />
+                                    <span style={{ marginLeft: '5px', marginRight: '20px' }}>{commentsLength}</span>
+                                </div>
+                                <div ref="detail" className="detail-content"></div>
                                 <div className="detail-msg">
                                     <Tag color="magenta" style={{ float: 'left', marginTop: '2px' }}>{blogClass || '未分类'}</Tag>
                                     <span className="detail-msg-createTime">创建 {this._translateDate(createTime)}</span>
                                     <span className="detail-msg-updateTime">最后更新 {this._translateDate(updateTime)}</span>
                                     <span className="detail-msg-updateTime">阅读({look})</span>
                                     <span className="detail-msg-commentsNum">评论 ({commentsLength})</span>
+                                </div>
+                                <div className="detail-btn">
+                                    <span onClick={this.postLike} title={isLike ? '取消点赞' : '点赞'} className="detail-btn-like">
+                                        <Statistic value={likeNum}
+                                            prefix={isLike ? <Icon type="like" theme="filled" style={{ color: "#1890FF" }} /> :
+                                                <MyIcon type="icon-weizan" />} />
+                                    </span>
+                                    {/* <span onClick={() => { message.info('功能暂未开启') }} title="收藏" className="detail-btn-heart">
+                                        <Statistic value={20} prefix={<MyIcon type="icon-weizan" />} />
+                                    </span> */}
                                 </div>
                                 <DetailComments onRef={this.onRef} />
                                 <AddComments addCommentsSus={this.addCommentsSus}></AddComments>
