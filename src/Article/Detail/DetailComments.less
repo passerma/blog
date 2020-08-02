@@ -1,9 +1,9 @@
+@import './markDown.less';
+
 .detail-comments {
     margin-top: 10px;
-    box-shadow: 10px 10px 10px #ddd;
-    border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 10px 20px;
+    padding: 10px 0;
 
     .ant-empty {
         padding: 10px;
@@ -11,9 +11,10 @@
 
     .detail-comments-spin {
         font-weight: bold;
-        border-bottom: 1px solid #333;
-        font-size: 14px;
+        font-size: 20px;
         padding: 0 0 10px 0;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #eaeaea;
     }
 
     .detail-comments-item {
@@ -94,7 +95,14 @@
 
         .detail-comments-form {
             margin-top: -4px;
-            border-bottom: 1px solid #ccc;
+
+            .for-toolbar-img {
+                ul {
+                    li:last-child {
+                        display: none;
+                    }
+                }
+            }
         }
     }
 

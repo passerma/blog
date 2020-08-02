@@ -1,20 +1,19 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Editor from 'for-editor'
 import { Input, Form, Icon, Button, Modal, message, Tooltip } from 'antd';
 import { newComment } from '../api/api'
 import './AddComments.less'
 
-const { TextArea } = Input;
 const { confirm } = Modal;
 
 class AddCommentsForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showAvatar: false
+            value: ''
         };
-        this.randomImg = Math.random()
     }
 
     /** 
@@ -23,13 +22,13 @@ class AddCommentsForm extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
         let that = this;
+        let { value } = this.state
         let id = this.props.match.params.id
         this.props.form.validateFields((err, values) => {
-            if (!err) {
-                let comments = values.comments
+            if (!err && value.trim() !== '') {
                 let user = values.user
                 let data = {
-                    comments,
+                    comments: value,
                     user,
                 }
                 if (that.props.isLogin) {
@@ -69,29 +68,50 @@ class AddCommentsForm extends React.Component {
                         message.info('取消了')
                     },
                 });
+            } else if (value.trim() === '') {
+                message.info('请输入评论内容！')
             }
         });
     };
 
+    /**
+     * 输入框改变
+     */
+    handleChange = (value) => {
+        this.setState({
+            value
+        })
+    }
+
     render() {
+        let { value } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="detail-addComments">
                 <div className="detail-addComments-title">发表评论</div>
                 <div className="detail-addComments-submit">
+                    <div className="detail-addComments-editor" style={{ textAlign: 'left' }}>
+                        <Editor
+                            placeholder="你的评论，支持markdown..."
+                            value={value}
+                            onChange={this.handleChange}
+                            height="300px"
+                            toolbar={{
+                                h1: true, // h1
+                                h2: true, // h2
+                                h3: true, // h3
+                                h4: true, // h4
+                                img: true, // 图片
+                                link: true, // 链接
+                                code: true, // 代码块
+                                preview: true, // 预览
+                                undo: true, // 撤销
+                                redo: true, // 重做
+                                subfield: true, // 单双栏模式
+                            }}
+                        />
+                    </div>
                     <Form onSubmit={this.handleSubmit}>
-                        <Form.Item style={{ textAlign: 'left' }}>
-                            {getFieldDecorator('comments', {
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: '请输入评论'
-                                    }
-                                ],
-                            })(
-                                <TextArea rows={4} placeholder="评论" />,
-                            )}
-                        </Form.Item>
                         <span style={{ float: 'left', height: '32px', lineHeight: '40px', marginRight: '10px' }}>用户名:</span>
                         <Form.Item style={{ float: 'left', marginRight: '20px', textAlign: 'left' }}>
                             {getFieldDecorator('user', {

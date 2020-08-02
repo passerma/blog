@@ -1,25 +1,49 @@
 .detail-addComments {
-    margin-top: 30px;
-    box-shadow: 10px 10px 10px #ddd;
-    border: 1px solid #ccc;
+    margin-top: 10px;
     border-radius: 10px;
-    padding: 10px 20px 22px 20px;
+    padding: 10px 0;
+    margin-bottom: 10px;
 
     .detail-addComments-title {
         font-weight: bold;
-        font-size: 14px;
+        font-size: 20px;
         padding: 0 0 10px 0;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #eaeaea;
     }
+
+    .detail-addComments-editor {
+        margin-bottom: 20px;
+
+        .for-toolbar-img {
+            ul {
+                li:last-child {
+                    display: none;
+                }
+            }
+        }
+    }
+
     .detail-addComments-submit {
         text-align: right;
+
         .detail-addComments-input {
             display: inline-block;
             width: 300px;
             margin-left: 10px;
         }
     }
+
     .detail-addComments-login-btn {
         margin-left: 20px;
         color: blueviolet !important;
+    }
+
+    .ant-form-item {
+        margin-bottom: 10px;
+    }
+
+    .ant-form-item-with-help {
+        margin-bottom: 5px;
     }
 }

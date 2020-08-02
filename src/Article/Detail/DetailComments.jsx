@@ -1,21 +1,37 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import marked from 'marked'
 import './DetailComments.less'
 import { getComments, delComments, modifyComments, replayComment, repliedComment } from '../api/api'
-import { Skeleton, Empty, Input, Form, Button, Modal, message, Tag, Popover } from 'antd';
+import { Skeleton, Empty, Input, Form, Button, Modal, message, Tag, Popover, Icon } from 'antd';
 import { translateXSSText, translateDateYMDHM } from '../../CommonData/globalFun'
 import { COMMON_URL } from '../../CommonData/api'
 import InfoDetail from '../../Base/InfoDetail/InfoDetail'
+import Editor from 'for-editor'
 
 const { TextArea } = Input;
 const { confirm } = Modal;
+
+marked.setOptions({ // marked 设置
+    renderer: new marked.Renderer(),
+    gfm: true,
+    tables: true,
+    breaks: true,
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false
+})
+
 
 class DetailCommentsForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             comments: [],
+            commentsNum: 0,
+            oldComment: '',
             dataReplay: {},
             allComments: {},
             commentsLoading: true,
@@ -32,6 +48,7 @@ class DetailCommentsForm extends React.Component {
             let data = res.data
             this._dealComments(data)
             this.setState({
+                commentsNum: data.length,
                 commentsLoading: false
             })
         })
@@ -104,6 +121,15 @@ class DetailCommentsForm extends React.Component {
                 commentsLoading: false
             })
         })
+    }
+
+    /** 
+     * 得到markdown文本
+    */
+    getMarkDown = (content) => {
+        let htmlContent = translateXSSText(content)
+        let strHtml = marked(htmlContent)
+        return strHtml
     }
     //#endregion
 
@@ -238,7 +264,12 @@ class DetailCommentsForm extends React.Component {
                             })
                         })
                     } else {
-                        message.error(res.ErrMsg)
+                        if (res && res.ErrCode === 2009) {
+                            message.info(res.ErrMsg)
+                        }
+                        if (res && res.ErrCode !== 2009) {
+                            message.error(res.ErrMsg)
+                        }
                     }
                 })
             },
@@ -259,56 +290,66 @@ class DetailCommentsForm extends React.Component {
      * 修改评论
     */
     modifyComments = (id, text) => {
-        this.props.form.setFieldsValue({
-            modifyComments: text
-        })
         this.setState({
             isModify: true,
-            modifyId: id
+            modifyId: id,
+            oldComment: text
         })
     }
+
+    /**
+     * 输入框改变
+     */
+    handleChange = (value) => {
+        this.setState({
+            oldComment: value
+        })
+    }
+
 
     /** 
      * 提交修改评论
     */
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields(['modifyComments'], (err, values) => {
-            if (!err) {
-                this.setState({
-                    btnLoading: true
-                })
-                modifyComments(this.state.modifyId, values.modifyComments, (res) => {
-                    if (!res) {
-                        return
-                    }
-                    if (res.ErrCode === 0) {
-                        message.success('修改成功')
-                        let id = this.props.match.params.id
+        let { oldComment } = this.state
+        if (oldComment.trim() !== '') {
+            this.setState({
+                btnLoading: true
+            })
+            modifyComments(this.state.modifyId, oldComment, (res) => {
+                if (!res) {
+                    return
+                }
+                if (res.ErrCode === 0) {
+                    message.success('修改成功')
+                    let id = this.props.match.params.id
+                    this.setState({
+                        commentsLoading: true,
+                        isModify: false,
+                        modifyId: '',
+                        btnLoading: false
+                    })
+                    getComments(id, (res) => {
+                        let data = res.data
+                        this._dealComments(data)
                         this.setState({
-                            commentsLoading: true,
-                            isModify: false,
-                            modifyId: '',
-                            btnLoading: false
+                            commentsLoading: false
                         })
-                        getComments(id, (res) => {
-                            let data = res.data
-                            this._dealComments(data)
-                            this.setState({
-                                commentsLoading: false
-                            })
-                        })
-                    } else {
-                        message.error(res.ErrMsg)
-                    }
-                })
-            }
-        });
+                    })
+                } else {
+                    message.error(res.ErrMsg)
+                }
+            })
+        } else {
+            message.info('请输入评论内容！')
+        }
     };
     //#endregion
+
     render() {
         let { commentsLoading, comments, dataReplay, allComments, replayBtnLoading, replayRealName,
-            isModify, modifyId, btnLoading } = this.state
+            isModify, modifyId, btnLoading, commentsNum, oldComment } = this.state
         let { userid, isLogin } = this.props
         const { getFieldDecorator } = this.props.form;
 
@@ -363,7 +404,9 @@ class DetailCommentsForm extends React.Component {
         //#endregion
 
         return <div className="detail-comments">
-            <div className="detail-comments-spin">评论列表</div>
+            <div className="detail-comments-spin"><Icon type="message" theme="twoTone"
+                twoToneColor="#52c41a" style={{ marginRight: '10px' }} />
+                {commentsNum} 条评论</div>
             {
                 comments.length === 0 ? <Empty description="暂无评论，快抢个沙发吧"></Empty> :
                     <Skeleton active loading={commentsLoading}>
@@ -418,28 +461,36 @@ class DetailCommentsForm extends React.Component {
                                             }}>回复</span>
                                     }
                                 </div>
-                                <div className="detail-comments-text">{translateXSSText(value.comments)}</div>
                                 {/* 修改评论 */}
                                 {
-                                    <Form key={index} className="detail-comments-form" onSubmit={this.handleSubmit}
+                                    <div className="detail-comments-form"
                                         style={isModify && modifyId === value.id ? { display: 'block' } : { display: 'none' }}>
-                                        <Form.Item style={{ textAlign: 'left', marginBottom: '10px' }}>
-                                            {getFieldDecorator('modifyComments', {
-                                                rules: [
-                                                    {
-                                                        required: true,
-                                                        message: '请输入评论'
-                                                    }
-                                                ]
-                                            })(
-                                                <TextArea key={index} rows={4} placeholder="评论" />,
-                                            )}
-                                        </Form.Item>
-                                        <Form.Item style={{
+                                        <div style={{ margin: '10px 0 20px 0', textAlign: 'left' }}>
+                                            <Editor
+                                                placeholder="你的评论，支持markdown..."
+                                                value={oldComment}
+                                                onChange={this.handleChange}
+                                                height="300px"
+                                                toolbar={{
+                                                    h1: true, // h1
+                                                    h2: true, // h2
+                                                    h3: true, // h3
+                                                    h4: true, // h4
+                                                    img: true, // 图片
+                                                    link: true, // 链接
+                                                    code: true, // 代码块
+                                                    preview: true, // 预览
+                                                    undo: true, // 撤销
+                                                    redo: true, // 重做
+                                                    subfield: true, // 单双栏模式
+                                                }}
+                                            />
+                                        </div>
+                                        <div style={{
                                             textAlign: 'right', display: 'inline-block', marginBottom: '10px',
                                             width: '100%'
                                         }}>
-                                            <Button type="primary" htmlType="submit" loading={btnLoading}>
+                                            <Button type="primary" onClick={this.handleSubmit} loading={btnLoading}>
                                                 修改
                                             </Button>
                                             <Button style={{ marginLeft: '10px' }}
@@ -448,9 +499,13 @@ class DetailCommentsForm extends React.Component {
                                             >
                                                 取消
                                             </Button>
-                                        </Form.Item>
-                                    </Form>
+                                        </div>
+                                    </div>
                                 }
+                                <div className="detail-comments-text"
+                                    style={isModify && modifyId === value.id ? { display: 'none' } : { display: 'block' }}
+                                    dangerouslySetInnerHTML={{ __html: this.getMarkDown(value.comments) }}
+                                ></div>
                                 {
                                     dataReplay[value.id].length > 0 &&
                                     <div className="detail-comments-replay-mun">

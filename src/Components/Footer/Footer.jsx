@@ -42,8 +42,8 @@ class Footer extends React.Component {
                     <a href="https://weibo.com/u/5283669622" rel="noopener noreferrer" target="_blank">
                         <i className="web-font">微博: passerma</i>
                     </a>
-                    <a href="mailto:admin@passerma.com">
-                        <i className="web-font">Mail Me: admin@passerma.com</i>
+                    <a href="mailto:passerma@passerma.com">
+                        <i className="web-font">Mail Me: passerma@passerma.com</i>
                     </a>
                     <span className="wechat">
                         <i className="web-font">微信小程序</i>

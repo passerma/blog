@@ -1,5 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/vs2015.css';
 import { getDatail, getlikeData, postlikeData } from '../api/api'
 import { Skeleton, BackTop, Empty, message, Tag, Anchor, Statistic, Icon } from 'antd';
 import './Detail.less';
@@ -63,6 +65,7 @@ class FooGuardTestForm extends React.Component {
                         newchild.onclick = function () { that.clickcCopy(innerText) };
                         allPre[i].appendChild(newchild);
                     }
+                    this.highlightCallBack();
                     this.addAnchor()
                 })
             } else {
@@ -131,6 +134,20 @@ class FooGuardTestForm extends React.Component {
         document.execCommand('copy');
         document.removeEventListener('copy', save);
         message.success('复制成功')
+    }
+
+    /**
+     * 代码高亮
+     */
+    highlightCallBack = () => {
+        document.querySelectorAll("pre code").forEach(block => {
+            try {
+                hljs.highlightBlock(block);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        });
     }
     //#endregion
 
