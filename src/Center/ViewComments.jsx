@@ -1,8 +1,10 @@
 import React from 'react';
-import { Empty, Spin, message, Table, Button, Modal } from 'antd';
+import { Empty, Spin, message, Table, Button, Modal, Popover } from 'antd';
 import { Link } from "react-router-dom"
 import './ViewComments.less'
+import marked from 'marked'
 import { getComments, delComments } from './api'
+import { translateXSSText } from '../CommonData//globalFun'
 const { confirm } = Modal;
 
 export default class ViewComments extends React.Component {
@@ -24,7 +26,17 @@ export default class ViewComments extends React.Component {
                 title: '评论内容',
                 dataIndex: 'content',
                 key: 'content',
-                ellipsis: true
+                ellipsis: true,
+                render: (text, record) => <Popover content={
+                    <div dangerouslySetInnerHTML={{ __html: record.contentMark }}
+                        className="view-comments-table-content-mark">
+                    </div>
+                }
+                    overlayClassName="view-comments-table-content-mark-pop">
+                    <div dangerouslySetInnerHTML={{ __html: text }}
+                        className="view-comments-table-content">
+                    </div>
+                </Popover>
             },
             {
                 title: '操作',
@@ -55,7 +67,8 @@ export default class ViewComments extends React.Component {
                     let temp = res.data[i]
                     dataS.key = temp.id
                     dataS.name = temp.title
-                    dataS.content = temp.comments
+                    dataS.content = this.getMarkDownText(temp.comments)
+                    dataS.contentMark = this.getMarkDown(temp.comments)
                     dataS.blogid = temp.blogid
                     dataSource.push(dataS)
                 }
@@ -108,6 +121,26 @@ export default class ViewComments extends React.Component {
                 })
             }
         })
+    }
+
+    /** 
+     * 得到markdown文本
+    */
+    getMarkDown = (content) => {
+        let htmlContent = translateXSSText(content)
+        let strHtml = marked(htmlContent)
+        return strHtml
+    }
+
+    /** 
+     * 得到纯文本
+    */
+    getMarkDownText = (content) => {
+        let htmlContent = translateXSSText(content)
+        let strHtml = marked(htmlContent)
+        let re = new RegExp('<[^<>]+>', 'g');
+        strHtml = strHtml.replace(re, "");
+        return strHtml
     }
 
     render() {

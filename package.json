@@ -157,5 +157,6 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-snap": "^1.23.0"
-  }
+  },
+  "proxy": "http://localhost:7010/api"
 }

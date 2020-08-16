@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import hljs from 'highlight.js';
-import 'highlight.js/styles/vs2015.css';
 import { getDatail, getlikeData, postlikeData } from '../api/api'
 import { Skeleton, BackTop, Empty, message, Tag, Anchor, Statistic, Icon } from 'antd';
 import './Detail.less';

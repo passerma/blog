@@ -1,8 +1,17 @@
-// export const COMMON_URL = "http://localhost:7010/api";
-export const COMMON_URL = 'https://www.passerma.com/api'
+let commonUrl = ''
+if (process.env.NODE_ENV === "development") {
+    // 开发环境
+    commonUrl = "http://localhost:7010/api";
+} else {
+    // 生产环境
+    commonUrl = 'https://www.passerma.com/api'
+}
+
+export const COMMON_URL = commonUrl
 
 export function FetchData(urlResult, params, callBack) {
-    let url = `${COMMON_URL}${urlResult}`;
+    let url = `${COMMON_URL}${urlResult}`; // 全局配置
+    // let url = `.${urlResult}`;   // 代理配置
     let opts = {
         ...params,
         credentials: "include",
