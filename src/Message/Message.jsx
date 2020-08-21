@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import './Message.less'
 import { Menu, Table, message, Badge, Skeleton, Divider, Button, Modal } from 'antd';
 import { setUserMessageNum } from '../Redux/action';
-import { translateDateYMDHM } from '../CommonData/globalFun'
+import { translateDateYMDHM, getURLParam } from '../CommonData/globalFun'
 import { getUnreadData, getAllData, getReadData, getContentData, delMessage } from './api'
+import MessageSet from './MessageSet'
 
 const { confirm } = Modal;
+const { SubMenu } = Menu;
 
 class Messsage extends React.Component {
     constructor(props) {
@@ -66,6 +68,14 @@ class Messsage extends React.Component {
         this.setState({
             tableHeight
         })
+        let messageSet = getURLParam('messageSet')
+        if (messageSet !== null) {
+            if (messageSet === 'basic') {
+                this.setState({
+                    openKey: '4'
+                })
+            }
+        }
         this.getUnread()
     }
 
@@ -272,12 +282,24 @@ class Messsage extends React.Component {
                 <Menu
                     onClick={this.handleClick}
                     style={{ width: 180 }}
-                    defaultSelectedKeys={['2']}
+                    defaultOpenKeys={['sub1', 'sub2']}
+                    selectedKeys={openKey}
                     mode="inline"
                 >
-                    <Menu.Item key="1">全部消息</Menu.Item>
-                    <Menu.Item key="2">未读消息</Menu.Item>
-                    <Menu.Item key="3">已读消息</Menu.Item>
+                    <SubMenu
+                        key="sub1"
+                        title="站内消息"
+                    >
+                        <Menu.Item key="1">全部消息</Menu.Item>
+                        <Menu.Item key="2">未读消息</Menu.Item>
+                        <Menu.Item key="3">已读消息</Menu.Item>
+                    </SubMenu>
+                    <SubMenu
+                        key="sub2"
+                        title="消息接收管理"
+                    >
+                        <Menu.Item key="4">基本接收管理</Menu.Item>
+                    </SubMenu>
                 </Menu>
                 <div className="message-box">
                     {(openKey === '1' && !contentOpen) && <div>
@@ -320,6 +342,13 @@ class Messsage extends React.Component {
                             <Table scroll={{ y: tableHeight }} dataSource={readDataSource} columns={this.columns}
                                 rowKey={record => record.id} loading={readDataSourceLoading}
                                 locale={{ emptyText: readDataSourceLoading ? '加载中...' : '无已读消息' }} />
+                        </div>
+                    </div>
+                    }
+                    {(openKey === '4' && !contentOpen) && <div>
+                        <div className="message-box-title">基本接收管理</div>
+                        <div className="message-box-table">
+                            <MessageSet />
                         </div>
                     </div>
                     }
