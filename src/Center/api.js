@@ -57,6 +57,19 @@ export function delComments(id, callBack) {
         callBack(res)
     })
 }
+
+/** 
+ * 获取点赞
+*/
+export const getLikesData = (callBack) => {
+    let params = {
+        method: "GET",
+    }
+    let url = `/user/allLikes`
+    FetchData(url, params, (res) => {
+        callBack(res)
+    })
+}
 //#endregion
 
 //#region center-set

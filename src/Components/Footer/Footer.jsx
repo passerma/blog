@@ -42,8 +42,8 @@ class Footer extends React.Component {
                     <a href="https://weibo.com/u/5283669622" rel="noopener noreferrer" target="_blank">
                         <i className="web-font">微博: passerma</i>
                     </a>
-                    <a href="mailto:passerma@passerma.com">
-                        <i className="web-font">Mail Me: passerma@passerma.com</i>
+                    <a href="mailto:admin@passerma.com">
+                        <i className="web-font">Mail Me: admin@passerma.com</i>
                     </a>
                     <span className="wechat">
                         <i className="web-font">微信小程序</i>
@@ -56,8 +56,8 @@ class Footer extends React.Component {
                     <a href="http://www.beian.miit.gov.cn" rel="noopener noreferrer" target="_blank">浙ICP备18045684号-2</a>
                     <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33011802001747"
                         rel="noopener noreferrer" target="_blank">浙公网安备33011802001747号</a>
-                    <a href="http://x.xiniubaba.com/x.php/OTVaR1/8112"
-                        rel="noopener noreferrer" target="_blank">隐私政策</a>
+                    {/* <a href="http://x.xiniubaba.com/x.php/OTVaR1/8112"
+                        rel="noopener noreferrer" target="_blank">隐私政策</a> */}
                 </div>
             </div>
         )

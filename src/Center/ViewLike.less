@@ -1,0 +1,88 @@
+.view-like {
+    margin-top: 20px;
+
+    .view-like-title {
+        font-size: 16px;
+        margin-bottom: 10px;
+
+        .anticon {
+            margin-right: 5px;
+            font-size: 18px;
+        }
+    }
+
+    .ant-spin-nested-loading {
+        border: 1px solid #e5f0f0;
+        background: #fff;
+    }
+
+    .view-like-box {
+        height: 300px;
+        width: 100%;
+
+        .view-like-box-item {
+            float: left;
+            width: 50%;
+            height: 100%;
+            box-sizing: border-box;
+            border: 1px solid #e5f0f0;
+
+            .view-like-box-title {
+                text-align: center;
+                box-sizing: border-box;
+                border-bottom: 1px solid #f0f0f0;
+                font-size: 14px;
+                height: 30px;
+                line-height: 30px;
+                position: relative;
+
+                .anticon {
+                    position: absolute;
+                    font-size: 20px;
+                    margin-top: 5px;
+                    left: 40px;
+                }
+
+                .ant-statistic {
+                    position: absolute;
+                    top: 0;
+                    height: 30px;
+                    line-height: 30px;
+                    right: 40px;
+                }
+            }
+
+            .view-like-box-data {
+                height: 267px;
+
+                .ant-empty {
+                    padding-top: 60px;
+                    height: 267px;
+                }
+
+                ul {
+                    height: 267px;
+                    width: 100%;
+                    overflow: auto;
+                    margin: 0;
+                    padding: 0;
+
+                    li {
+                        padding: 8px 20px;
+                        width: 100%;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        border-bottom: 1px solid #e8e8e8;
+                        cursor: pointer;
+                        color: rgba(0, 0, 0, 0.65);
+
+                        &:hover {
+                            color: #1890ff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
