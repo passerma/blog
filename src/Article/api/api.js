@@ -68,19 +68,28 @@ export function getComments(id, callBack) {
 /** 
  * 新建评论
 */
-export function newComment(id, data, callBack) {
+export function newComment(id, formdata, callBack) {
     let url = `/blog/detail/newComment?id=${id}`
-    let comments = data.comments
-    let user = data.user
+    // let comments = data.comments
+    // let user = data.user
     let opts = {
         method: 'POST',
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify({
-            comments: comments,
-            user: user
-        })
+        body: formdata
+    }
+    FetchData(url, opts, (res) => {
+        callBack(res)
+    })
+}
+
+/**
+ * 上传评论图片
+ */
+export function postCommentImgData(formData, callBack) {
+    let url = `/file/post/commentImg`
+    let opts = {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
     }
     FetchData(url, opts, (res) => {
         callBack(res)
@@ -103,15 +112,10 @@ export function delComments(id, callBack) {
 /** 
  * 修改评论
 */
-export function modifyComments(id, comments, callBack) {
+export function modifyComments(id, formdata, callBack) {
     let params = {
         method: "POST",
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify({
-            comments
-        })
+        body: formdata
     }
     let url = `/blog/detail/modifycomments?id=${id}`
     FetchData(url, params, (res) => {

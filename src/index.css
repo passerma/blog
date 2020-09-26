@@ -74,3 +74,9 @@ body {
 .floatleft {
   float: left;
 }
+
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

@@ -27,16 +27,17 @@ export default class ViewComments extends React.Component {
                 dataIndex: 'content',
                 key: 'content',
                 ellipsis: true,
-                render: (text, record) => <Popover content={
-                    <div dangerouslySetInnerHTML={{ __html: record.contentMark }}
-                        className="view-comments-table-content-mark">
-                    </div>
-                }
-                    overlayClassName="view-comments-table-content-mark-pop">
-                    <div dangerouslySetInnerHTML={{ __html: text }}
-                        className="view-comments-table-content">
-                    </div>
-                </Popover>
+                render: (text) => <div className="ellipsis" title={text}>{text}</div>
+                // render: (text, record) => <Popover content={
+                //     <div dangerouslySetInnerHTML={{ __html: record.contentMark }}
+                //         className="view-comments-table-content-mark">
+                //     </div>
+                // }
+                //     overlayClassName="view-comments-table-content-mark-pop">
+                //     <div dangerouslySetInnerHTML={{ __html: text }}
+                //         className="view-comments-table-content">
+                //     </div>
+                // </Popover>
             },
             {
                 title: '操作',

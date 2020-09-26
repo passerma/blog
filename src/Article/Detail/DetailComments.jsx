@@ -1,29 +1,18 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import marked from 'marked'
 import './DetailComments.less'
 import { getComments, delComments, modifyComments, replayComment, repliedComment } from '../api/api'
-import { Skeleton, Empty, Input, Form, Button, Modal, message, Tag, Popover, Icon } from 'antd';
+import { Skeleton, Empty, Input, Form, Button, Modal, message, Tag, Popover, Icon, Upload } from 'antd';
 import { translateXSSText, translateDateYMDHM } from '../../CommonData/globalFun'
+import { createFile } from '../../CommonData/imageFun'
 import { COMMON_URL } from '../../CommonData/api'
 import InfoDetail from '../../Base/InfoDetail/InfoDetail'
-import Editor from 'for-editor'
+import ImageView from '../../Components/ImageView/ImageView'
+import _ from 'lodash'
 
 const { TextArea } = Input;
 const { confirm } = Modal;
-
-marked.setOptions({ // marked 设置
-    renderer: new marked.Renderer(),
-    gfm: true,
-    tables: true,
-    breaks: true,
-    pedantic: false,
-    sanitize: false,
-    smartLists: true,
-    smartypants: false
-})
-
 
 class DetailCommentsForm extends React.Component {
     constructor(props) {
@@ -37,9 +26,14 @@ class DetailCommentsForm extends React.Component {
             commentsLoading: true,
             replayBtnLoading: false,
             replayRealName: '',
-            replayToUser: ''
+            replayToUser: '',
+            imageViewVisible: false,
+            images: [],
+            imagesIndex: 0,
+            fileList: [] // 图片数组
         };
         this.props.onRef(this)
+        this.formdataArr = []
     }
 
     componentDidMount() {
@@ -127,9 +121,7 @@ class DetailCommentsForm extends React.Component {
      * 得到markdown文本
     */
     getMarkDown = (content) => {
-        let htmlContent = translateXSSText(content)
-        let strHtml = marked(htmlContent)
-        return strHtml
+        return translateXSSText(content)
     }
     //#endregion
 
@@ -289,23 +281,32 @@ class DetailCommentsForm extends React.Component {
     /** 
      * 修改评论
     */
-    modifyComments = (id, text) => {
+    modifyComments = (id, text, images) => {
+        const imgArr = images.split('-')
+        let fileList = []
+        for (let i = 0; i < imgArr.length; i++) {
+            const element = imgArr[i];
+            if (element) {
+                fileList.push(`${COMMON_URL}/file/commentImg?img=${element}`)
+            }
+        }
+        this.formdataArr = _.cloneDeep(fileList)
         this.setState({
             isModify: true,
             modifyId: id,
-            oldComment: text
+            oldComment: text,
+            fileList
         })
     }
 
     /**
      * 输入框改变
      */
-    handleChange = (value) => {
+    handleChange = (e) => {
         this.setState({
-            oldComment: value
+            oldComment: e.target.value
         })
     }
-
 
     /** 
      * 提交修改评论
@@ -314,32 +315,127 @@ class DetailCommentsForm extends React.Component {
         e.preventDefault();
         let { oldComment } = this.state
         if (oldComment.trim() !== '') {
-            this.setState({
-                btnLoading: true
-            })
-            modifyComments(this.state.modifyId, oldComment, (res) => {
-                if (!res) {
-                    return
-                }
-                if (res.ErrCode === 0) {
-                    message.success('修改成功')
-                    let id = this.props.match.params.id
+            confirm({
+                title: '确认修改吗？图片删除后不可恢复噢！',
+                okText: '确定',
+                cancelText: '取消',
+                centered: true,
+                onOk: () => {
                     this.setState({
-                        commentsLoading: true,
-                        isModify: false,
-                        modifyId: '',
-                        btnLoading: false
+                        btnLoading: true
                     })
-                    getComments(id, (res) => {
-                        let data = res.data
-                        this._dealComments(data)
-                        this.setState({
-                            commentsLoading: false
+                    let formdata = new FormData();
+                    if (this.formdataArr.length === 0) {
+                        formdata.append('imgData', '')
+                        formdata.append('hasImg', '0')
+                        formdata.append('comments', oldComment)
+                        modifyComments(this.state.modifyId, formdata, (res) => {
+                            if (!res) {
+                                return
+                            }
+                            if (res.ErrCode === 0) {
+                                message.success('修改成功')
+                                let id = this.props.match.params.id
+                                this.setState({
+                                    commentsLoading: true,
+                                    isModify: false,
+                                    modifyId: '',
+                                    btnLoading: false
+                                })
+                                getComments(id, (res) => {
+                                    let data = res.data
+                                    this._dealComments(data)
+                                    this.setState({
+                                        commentsLoading: false
+                                    })
+                                })
+                            } else {
+                                message.error(res.ErrMsg)
+                            }
                         })
-                    })
-                } else {
-                    message.error(res.ErrMsg)
-                }
+                    } else {
+                        formdata.append('hasImg', '1')
+                        let newFile = 0
+                        const getFileData = () => {
+                            if (typeof this.formdataArr[newFile] === 'string') {
+                                createFile(this.formdataArr[newFile], (file) => {
+                                    if (file === null) {
+                                        message.error('上传图片出错，请重试！')
+                                        this.setState({
+                                            btnLoading: false
+                                        })
+                                        return
+                                    }
+                                    formdata.append('imgData', file)
+                                    newFile += 1
+                                    if (newFile <= this.formdataArr.length - 1) {
+                                        getFileData()
+                                    } else {
+                                        formdata.append('comments', oldComment)
+                                        modifyComments(this.state.modifyId, formdata, (res) => {
+                                            if (!res) {
+                                                return
+                                            }
+                                            if (res.ErrCode === 0) {
+                                                message.success('修改成功')
+                                                let id = this.props.match.params.id
+                                                this.setState({
+                                                    commentsLoading: true,
+                                                    isModify: false,
+                                                    modifyId: '',
+                                                    btnLoading: false
+                                                })
+                                                getComments(id, (res) => {
+                                                    let data = res.data
+                                                    this._dealComments(data)
+                                                    this.setState({
+                                                        commentsLoading: false
+                                                    })
+                                                })
+                                            } else {
+                                                message.error(res.ErrMsg)
+                                            }
+                                        })
+                                    }
+                                })
+                            } else { // 正常file类型
+                                formdata.append('imgData', this.formdataArr[newFile])
+                                newFile += 1
+                                if (newFile <= this.formdataArr.length - 1) {
+                                    getFileData()
+                                } else {
+                                    formdata.append('comments', oldComment)
+                                    modifyComments(this.state.modifyId, formdata, (res) => {
+                                        if (!res) {
+                                            return
+                                        }
+                                        if (res.ErrCode === 0) {
+                                            message.success('修改成功')
+                                            let id = this.props.match.params.id
+                                            this.setState({
+                                                commentsLoading: true,
+                                                isModify: false,
+                                                modifyId: '',
+                                                btnLoading: false
+                                            })
+                                            getComments(id, (res) => {
+                                                let data = res.data
+                                                this._dealComments(data)
+                                                this.setState({
+                                                    commentsLoading: false
+                                                })
+                                            })
+                                        } else {
+                                            message.error(res.ErrMsg)
+                                        }
+                                    })
+                                }
+                            }
+                        }
+                        getFileData()
+                    }
+                },
+                onCancel() { }
             })
         } else {
             message.info('请输入评论内容！')
@@ -347,9 +443,87 @@ class DetailCommentsForm extends React.Component {
     };
     //#endregion
 
+    //#region 界面相关
+    /**
+     * 生成图片
+     */
+    _createImgs = (imgs) => {
+        const imgArr = imgs.split('-')
+        let imgsDiv = []
+        for (let i = 0; i < imgArr.length; i++) {
+            const element = imgArr[i];
+            if (element) {
+                imgsDiv.push(
+                    <div className="detail-comments-img-div" key={i}>
+                        <img src={`${COMMON_URL}/file/commentImg?img=${element}`} alt=''
+                            onClick={() => { this._setImageView(imgArr, i) }} />
+                    </div>
+                )
+            }
+        }
+        return imgsDiv
+    }
+
+    _setImageView = (images, index) => {
+        let imagesUrl = []
+        for (let i = 0; i < images.length; i++) {
+            const element = images[i];
+            if (element) {
+                imagesUrl.push(`${COMMON_URL}/file/commentImg?img=${element}`)
+            }
+        }
+        if (imagesUrl.length > 0) {
+            this.setState({
+                images: imagesUrl,
+                imagesIndex: index,
+                imageViewVisible: true
+            })
+        }
+    }
+    //#endregion
+
+    //#region 修改相关
+    _beforeUpload = (file) => {
+        let { fileList } = this.state
+        if (this.formdataArr.length > 8) {
+            message.error('仅支持上传8张图片图片！');
+        }
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+        if (!isJpgOrPng) {
+            message.error('仅支持jpg，png格式图片！');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+            message.error('图片大小不能超过2MB！');
+        }
+        if (isJpgOrPng && isLt2M && this.formdataArr.length <= 8) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imgFile = e.target?.result;
+                fileList.push(imgFile)
+                this.formdataArr.push(file)
+                this.setState({
+                    fileList
+                })
+            };
+            reader.readAsDataURL(file);
+        }
+        return false
+    }
+    _delImage = (index) => {
+        let { fileList } = this.state
+        fileList.splice(index, 1)
+        this.formdataArr.splice(index, 1)
+        this.setState({
+            fileList
+        })
+    }
+    //#endregion
+
     render() {
         let { commentsLoading, comments, dataReplay, allComments, replayBtnLoading, replayRealName,
-            isModify, modifyId, btnLoading, commentsNum, oldComment } = this.state
+            isModify, modifyId, btnLoading, commentsNum, oldComment, imageViewVisible, images,
+            imagesIndex, fileList } = this.state
         let { userid, isLogin } = this.props
         const { getFieldDecorator } = this.props.form;
 
@@ -440,7 +614,7 @@ class DetailCommentsForm extends React.Component {
                                                 删除</span>
                                             <span className="detail-comments-title-modify"
                                                 onClick={
-                                                    () => this.modifyComments(value.id, translateXSSText(value.comments))
+                                                    () => this.modifyComments(value.id, translateXSSText(value.comments), value.commentImg)
                                                 }>修改</span>
                                         </Fragment>
                                     }
@@ -465,26 +639,28 @@ class DetailCommentsForm extends React.Component {
                                 {
                                     <div className="detail-comments-form"
                                         style={isModify && modifyId === value.id ? { display: 'block' } : { display: 'none' }}>
-                                        <div style={{ margin: '10px 0 20px 0', textAlign: 'left' }}>
-                                            <Editor
-                                                placeholder="你的评论，支持markdown..."
-                                                value={oldComment}
-                                                onChange={this.handleChange}
-                                                height="300px"
-                                                toolbar={{
-                                                    h1: true, // h1
-                                                    h2: true, // h2
-                                                    h3: true, // h3
-                                                    h4: true, // h4
-                                                    img: true, // 图片
-                                                    link: true, // 链接
-                                                    code: true, // 代码块
-                                                    preview: true, // 预览
-                                                    undo: true, // 撤销
-                                                    redo: true, // 重做
-                                                    subfield: true, // 单双栏模式
-                                                }}
-                                            />
+                                        <div style={{ margin: '10px 0 s0 0', textAlign: 'left' }}>
+                                            <Input.TextArea value={oldComment} rows={3}
+                                                onChange={this.handleChange} style={{ marginBottom: '10px' }} />
+                                            <Upload beforeUpload={this._beforeUpload} showUploadList={false}>
+                                                <Button disabled={fileList.length >= 8}>
+                                                    <Icon type="upload" /> 上传图片
+                                                </Button>
+                                                <span className="detail-addComment-upload-tip">最多上传8张图片，仅支持jpg，png格式图片，大小2MB以内！</span>
+                                            </Upload>
+                                            {
+                                                fileList.length > 0 && <div style={{ textAlign: 'left' }}>
+                                                    {
+                                                        fileList.map((element, index) =>
+                                                            <div className="detail-addComment-img" key={index}>
+                                                                <img src={element} alt="" />
+                                                                <div className="detail-addComment-img-del" onClick={() => this._delImage(index)} >
+                                                                    <Icon type="delete" />
+                                                                </div>
+                                                            </div>)
+                                                    }
+                                                </div>
+                                            }
                                         </div>
                                         <div style={{
                                             textAlign: 'right', display: 'inline-block', marginBottom: '10px',
@@ -504,8 +680,15 @@ class DetailCommentsForm extends React.Component {
                                 }
                                 <div className="detail-comments-text"
                                     style={isModify && modifyId === value.id ? { display: 'none' } : { display: 'block' }}
-                                    dangerouslySetInnerHTML={{ __html: this.getMarkDown(value.comments) }}
-                                ></div>
+                                >
+                                    {translateXSSText(value.comments)}
+                                </div>
+                                <div className="detail-comments-img"
+                                    style={isModify && modifyId === value.id ? { display: 'none' } : { display: 'block' }}>
+                                    {
+                                        this._createImgs(value.commentImg)
+                                    }
+                                </div>
                                 {
                                     dataReplay[value.id].length > 0 &&
                                     <div className="detail-comments-replay-mun">
@@ -588,7 +771,9 @@ class DetailCommentsForm extends React.Component {
                         }
                     </Skeleton>
             }
-        </div>
+            <ImageView visible={imageViewVisible} images={images} index={imagesIndex}
+                onClose={() => this.setState({ imageViewVisible: false })} />
+        </div >
     }
 }
 

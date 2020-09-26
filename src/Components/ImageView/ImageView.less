@@ -1,0 +1,70 @@
+.imageView-modal {
+    width: 100%;
+    height: 100%;
+    background: none;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    .ant-modal-close-x {
+        color: #fff;
+        font-size: 25px;
+        background: rgba(119, 119, 119, .5);
+    }
+
+    .ant-modal-content {
+        width: 100%;
+        height: 100%;
+        background: none;
+    }
+
+    .ant-modal-body {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        padding: 56px;
+        position: relative;
+
+        .anticon-right-circle {
+            position: absolute;
+            top: 50%;
+            margin-top: -22px;
+            right: 5px;
+            font-size: 25px;
+            background: rgba(119, 119, 119, .5);
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+
+        .anticon-left-circle {
+            position: absolute;
+            top: 50%;
+            margin-top: -22px;
+            left: 5px;
+            font-size: 25px;
+            background: rgba(119, 119, 119, .5);
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+        }
+    }
+
+    .imageView-modal-box {
+        user-select: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            // transform: scale(5);
+        }
+    }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import hljs from 'highlight.js';
 import { getDatail, getlikeData, postlikeData } from '../api/api'
 import { Skeleton, BackTop, Empty, message, Tag, Anchor, Statistic, Icon } from 'antd';
@@ -7,6 +8,7 @@ import './Detail.less';
 import './AddComments'
 import AddComments from './AddComments';
 import DetailComments from './DetailComments'
+import AddComment from './AddComment'
 
 const MyIcon = Icon.createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_1910007_ojt6gfzurem.js', // 在 iconfont.cn 上生成
@@ -242,6 +244,8 @@ class FooGuardTestForm extends React.Component {
         let { loading, title, createTime, updateTime, commentsLength, noneArticle, articleVisible, look,
             blogClass, AnchorLink, likeNum, isLike } = this.state
 
+        let { isLogin, userInfo } = this.props
+
         return (
             <div className="detail">
                 <Skeleton active loading={loading}>
@@ -278,7 +282,8 @@ class FooGuardTestForm extends React.Component {
                                     </span> */}
                                 </div>
                                 <DetailComments onRef={this.onRef} />
-                                <AddComments addCommentsSus={this.addCommentsSus}></AddComments>
+                                {/* <AddComments addCommentsSus={this.addCommentsSus}></AddComments> */}
+                                <AddComment addCommentsSus={this.addCommentsSus} isLogin={isLogin} userInfo={userInfo} />
                             </div>
                     }
                 </Skeleton>
@@ -296,5 +301,16 @@ class FooGuardTestForm extends React.Component {
     }
 }
 
-export default (withRouter(FooGuardTestForm))
+// export default  (withRouter(FooGuardTestForm))
+
+
+function mapStateToProps(state) {
+    let { isLogin } = state.setLogin
+    return {
+        isLogin,
+        userInfo: state.setUserInfo
+    }
+}
+
+export default connect(mapStateToProps)(withRouter(FooGuardTestForm));
 
