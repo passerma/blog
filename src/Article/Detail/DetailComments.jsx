@@ -577,7 +577,7 @@ class DetailCommentsForm extends React.Component {
         </div>
         //#endregion
 
-        return <div className="detail-comments">
+        return <div className="detail-comments" id="detaiComments">
             <div className="detail-comments-spin"><Icon type="message" theme="twoTone"
                 twoToneColor="#52c41a" style={{ marginRight: '10px' }} />
                 {commentsNum} 条评论</div>

@@ -168,7 +168,7 @@ const AddCommentForm: React.FC<AddCommentFormProps> = (props) => {
     }, [])
 
     return (
-        <div className="detail-addComment">
+        <div className="detail-addComment" id="detailAddComments">
             <div className="detail-addComment-title">发表评论</div>
             <div className="detail-addComment-submit">
                 <div className="detail-addComment-editor" style={{ textAlign: 'left' }}>

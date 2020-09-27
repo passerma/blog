@@ -87,7 +87,7 @@ class AddCommentsForm extends React.Component {
         let { value } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className="detail-addComments">
+            <div className="detail-addComments" id="detailAddComments">
                 <div className="detail-addComments-title">发表评论</div>
                 <div className="detail-addComments-submit">
                     <div className="detail-addComments-editor" style={{ textAlign: 'left' }}>

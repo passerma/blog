@@ -197,7 +197,15 @@
 
         .detail-btn {
             clear: both;
-            margin-top: 10px;
+            padding-top: 20px;
+
+            .detail-btn-title {
+                font-weight: bold;
+                font-size: 18px;
+                padding: 0 0 10px 0;
+                margin-bottom: 10px;
+                border-bottom: 2px solid #eaeaea;
+            }
 
             .detail-btn-like {
                 display: inline-block;
@@ -247,6 +255,54 @@
 
         .detail-anchor-5 {
             padding-left: 67px;
+        }
+    }
+
+    .detail-anchor-atn {
+        position: fixed;
+        bottom: 95px;
+        right: 85px;
+        width: 70px;
+        text-align: center;
+        height: 120px;
+        border-radius: 4px;
+        overflow: hidden;
+
+        .ant-anchor-ink {
+            display: none;
+        }
+
+        .ant-anchor-wrapper {
+            padding: 0;
+            margin: 0;
+            background: none;
+
+            .ant-anchor {
+                padding: 0;
+                margin: 0;
+
+                .ant-anchor-link {
+                    padding: 0;
+                    width: 70px;
+                    text-align: center;
+                    height: 30px;
+                    line-height: 30px;
+                    background-color: rgba(0, 0, 0, 0.25);
+
+                    &:hover {
+                        background-color: rgba(0, 0, 0, 0.45);
+                    }
+
+                    a {
+                        color: #fff;
+
+                        &:hover,
+                        &:active {
+                            color: #fff;
+                        }
+                    }
+                }
+            }
         }
     }
 }

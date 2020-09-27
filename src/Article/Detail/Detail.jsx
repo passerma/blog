@@ -3,10 +3,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import hljs from 'highlight.js';
 import { getDatail, getlikeData, postlikeData } from '../api/api'
-import { Skeleton, BackTop, Empty, message, Tag, Anchor, Statistic, Icon } from 'antd';
+import { Skeleton, Empty, message, Tag, Anchor, Statistic, Icon } from 'antd';
 import './Detail.less';
 import './AddComments'
-import AddComments from './AddComments';
 import DetailComments from './DetailComments'
 import AddComment from './AddComment'
 
@@ -239,6 +238,22 @@ class FooGuardTestForm extends React.Component {
             })
         }
     }
+
+    /**
+     * 添加功能锚点
+     */
+    _createAnchorLinkTitle = () => {
+        return <Anchor
+            getContainer={() => document.querySelector('.detail')}
+            affix
+            onClick={e => e.preventDefault()}
+            showInkInFixed={false}>
+            <Anchor.Link title="查看文章" href="#detailTitle" />
+            <Anchor.Link title="点赞收藏" href="#detailBtn" />
+            <Anchor.Link title="查看评论" href="#detaiComments" />
+            <Anchor.Link title="发表评论" href="#detailAddComments" />
+        </Anchor>
+    }
     //#endregion
     render() {
         let { loading, title, createTime, updateTime, commentsLength, noneArticle, articleVisible, look,
@@ -252,7 +267,7 @@ class FooGuardTestForm extends React.Component {
                     {
                         noneArticle ? <Empty style={{ marginTop: '20px' }} description={articleVisible ? '对应文章不存在' : '文章已被删除!!'} /> :
                             <div className="detail-main">
-                                <div className="detail-title">
+                                <div className="detail-title" id="detailTitle">
                                     <h1>{title}</h1>
                                 </div>
                                 <div className="detail-title-more">
@@ -271,7 +286,9 @@ class FooGuardTestForm extends React.Component {
                                     <span className="detail-msg-updateTime">阅读({look})</span>
                                     <span className="detail-msg-commentsNum">评论 ({commentsLength})</span>
                                 </div>
-                                <div className="detail-btn">
+                                <div className="detail-btn" id="detailBtn">
+                                    <div className="detail-btn-title"><Icon type="database" theme="twoTone"
+                                        twoToneColor="#52c41a" style={{ marginRight: '10px' }} />点赞收藏</div>
                                     <span onClick={this.postLike} title={isLike ? '取消点赞' : '点赞'} className="detail-btn-like">
                                         <Statistic value={likeNum}
                                             prefix={isLike ? <Icon type="like" theme="filled" style={{ color: "#1890FF" }} /> :
@@ -287,7 +304,6 @@ class FooGuardTestForm extends React.Component {
                             </div>
                     }
                 </Skeleton>
-                <BackTop target={() => document.querySelector('.detail')} />
                 {
                     (!loading && !noneArticle) && <div className="detail-anchor">
                         <span className="detail-anchor-title">目录</span>
@@ -296,13 +312,15 @@ class FooGuardTestForm extends React.Component {
                         }
                     </div>
                 }
+                {
+                    (!loading && !noneArticle) && <div className="detail-anchor-atn">
+                        {this._createAnchorLinkTitle()}
+                    </div>
+                }
             </div>
         )
     }
 }
-
-// export default  (withRouter(FooGuardTestForm))
-
 
 function mapStateToProps(state) {
     let { isLogin } = state.setLogin
