@@ -8,18 +8,6 @@ function getBase64Image(img: HTMLImageElement) {
     return dataURL;
 }
 
-function convertBase64UrlToBlob(urlData: string) {
-    var bytes = window.atob(urlData.split(',')[1]);
-    var ab = new ArrayBuffer(bytes.length);
-    var ia = new Uint8Array(ab);
-    for (var i = 0; i < bytes.length; i++) {
-        ia[i] = bytes.charCodeAt(i);
-    }
-    return new Blob([ab], {
-        type: 'image/png'
-    });
-}
-
 export function createBase64(imageUrl: string, callback: (bash64: string) => void) {
     const image = new Image();
     image.crossOrigin = "";
@@ -35,7 +23,7 @@ export function createFile(imageUrl: string, callback: (bash64: Blob | null) => 
     xhr.open("get", imageUrl, true);
     xhr.responseType = "blob";
     xhr.onload = function () {
-        if (this.status == 200) {
+        if (this.status === 200) {
             const file = new File([this.response], `${Date.now()}.png`)
             callback(file)
         } else {

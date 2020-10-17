@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Form, { FormComponentProps } from "antd/lib/form/Form";
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import { newComment, postCommentImgData } from '../api/api'
+import { newComment } from '../api/api'
 import { Button, Input, Icon, Tooltip, Modal, message, Upload } from "antd";
 import _ from 'lodash'
 import { UploadFile } from 'antd/lib/upload/interface'
@@ -133,9 +133,9 @@ const AddCommentForm: React.FC<AddCommentFormProps> = (props) => {
         if (!isJpgOrPng) {
             message.error('仅支持jpg，png格式图片！');
         }
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        const isLt2M = file.size / 1024 / 1024 < 5;
         if (!isLt2M) {
-            message.error('图片大小不能超过2MB！');
+            message.error('图片大小不能超过5MB！');
         }
         if (isJpgOrPng && isLt2M && formdataArr.length <= 8) {
             const reader = new FileReader();
@@ -177,7 +177,7 @@ const AddCommentForm: React.FC<AddCommentFormProps> = (props) => {
                         <Button disabled={fileList.length >= 8}>
                             <Icon type="upload" /> 上传图片
                         </Button>
-                        <span className="detail-addComment-upload-tip">最多上传8张图片，仅支持jpg，png格式图片，大小2MB以内！</span>
+                        <span className="detail-addComment-upload-tip">最多上传8张图片，仅支持jpg，png格式图片，大小5MB以内！</span>
                     </Upload>
                 </div>
                 {
@@ -185,7 +185,7 @@ const AddCommentForm: React.FC<AddCommentFormProps> = (props) => {
                         {
                             fileList.map((element, index) =>
                                 <div className="detail-addComment-img" key={index}>
-                                    <img src={element.url} />
+                                    <img src={element.url} alt="" />
                                     <div className="detail-addComment-img-del" onClick={() => _delImage(index)} >
                                         <Icon type="delete" />
                                     </div>

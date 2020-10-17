@@ -1,5 +1,5 @@
 import React from 'react';
-import { Empty, Spin, message, Table, Button, Modal, Popover } from 'antd';
+import { Empty, Spin, message, Table, Button, Modal } from 'antd';
 import { Link } from "react-router-dom"
 import './ViewComments.less'
 import marked from 'marked'

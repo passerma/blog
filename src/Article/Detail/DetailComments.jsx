@@ -492,9 +492,9 @@ class DetailCommentsForm extends React.Component {
         if (!isJpgOrPng) {
             message.error('仅支持jpg，png格式图片！');
         }
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        const isLt2M = file.size / 1024 / 1024 < 5;
         if (!isLt2M) {
-            message.error('图片大小不能超过2MB！');
+            message.error('图片大小不能超过5MB！');
         }
         if (isJpgOrPng && isLt2M && this.formdataArr.length <= 8) {
             const reader = new FileReader();
@@ -646,7 +646,7 @@ class DetailCommentsForm extends React.Component {
                                                 <Button disabled={fileList.length >= 8}>
                                                     <Icon type="upload" /> 上传图片
                                                 </Button>
-                                                <span className="detail-addComment-upload-tip">最多上传8张图片，仅支持jpg，png格式图片，大小2MB以内！</span>
+                                                <span className="detail-addComment-upload-tip">最多上传8张图片，仅支持jpg，png格式图片，大小5MB以内！</span>
                                             </Upload>
                                             {
                                                 fileList.length > 0 && <div style={{ textAlign: 'left' }}>
