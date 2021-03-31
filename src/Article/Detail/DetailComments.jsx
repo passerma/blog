@@ -625,7 +625,7 @@ class DetailCommentsForm extends React.Component {
                                             </div>}
                                             content={content}
                                             autoAdjustOverflow
-                                            arrowPointAtCenter
+                                            placement="topRight"
                                             onVisibleChange={(visible) => this.replayOpen(visible, value)}
                                             trigger="click">
                                             <span className="detail-comments-title-reply">回复</span>
@@ -735,7 +735,7 @@ class DetailCommentsForm extends React.Component {
                                                                 </div>}
                                                                 content={secContent}
                                                                 autoAdjustOverflow
-                                                                arrowPointAtCenter
+                                                                placement="topRight"
                                                                 onVisibleChange={(visible) =>
                                                                     this.replaySecOpen(visible, value, replayValue)}
                                                                 trigger="click">

@@ -23,7 +23,7 @@ export default class HomeToolFootball extends React.Component {
                 dataIndex: 'img',
                 key: 'img',
                 render(text, record) {
-                    return <img alt="球队图标" className="team-img"  referrerPolicy="no-referrer" src={record.img} />
+                    return <img alt="球队图标" className="team-img" referrerPolicy="no-referrer" src={record.img} />
                 },
                 width: 22
             },
@@ -116,11 +116,11 @@ export default class HomeToolFootball extends React.Component {
                         this.setState({ footballSelect: 'fj' })
                         this.searchData('法甲')
                     }} className={footballSelect === 'fj' ? 'footballSelect' : ''}>法甲</span>
-                    <span onClick={() => {
+                    {/* <span onClick={() => {
                         if (footballSelect === 'zc') return
                         this.setState({ footballSelect: 'zc' })
                         this.searchData('中超')
-                    }} className={footballSelect === 'zc' ? 'footballSelect' : ''}>中超</span>
+                    }} className={footballSelect === 'zc' ? 'footballSelect' : ''}>中超</span> */}
                 </div>
                 <Table
                     loading={loading}

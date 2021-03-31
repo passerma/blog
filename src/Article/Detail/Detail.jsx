@@ -43,6 +43,7 @@ class FooGuardTestForm extends React.Component {
         getDatail(id, (res) => {
             if (res.ErrCode === 0) {
                 let data = res.data
+                document.title = data.title
                 this.setState({
                     loading: false,
                     title: data.title,
