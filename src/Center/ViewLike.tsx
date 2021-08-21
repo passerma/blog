@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spin, Statistic, Empty, message } from 'antd';
 import { Link } from "react-router-dom"
-import { getLikesData } from './api'
+import { getLikesData, getCollectData } from './api'
 import Icon from 'antd/lib/icon'
 import './ViewLike.less'
 
@@ -24,18 +24,23 @@ interface ViewLikeProps {
 
 interface ViewLikeState {
     likeLoading: boolean,
-    likeData: likesData[]
+    likeData: likesData[],
+    collectLoading: boolean,
+    collectData: likesData[]
 }
 //#endregion
 
 export default class ViewLike extends React.Component<ViewLikeProps, ViewLikeState> {
     state: ViewLikeState = {
         likeLoading: true,
-        likeData: []
+        likeData: [],
+        collectLoading: true,
+        collectData: [],
     }
 
     componentDidMount() {
         this.getAllLikes()
+        this.getAllCollect()
     }
 
     getAllLikes = () => {
@@ -54,9 +59,24 @@ export default class ViewLike extends React.Component<ViewLikeProps, ViewLikeSta
         })
     }
 
+    getAllCollect = async () => {
+        let res = await getCollectData()
+        if (res?.ErrCode === 0) {
+            this.setState({
+                collectData: res.data,
+                collectLoading: false
+            })
+        } else {
+            res && message.error(res.ErrMsg)
+            this.setState({
+                collectLoading: false
+            })
+        }
+    }
+
     render() {
 
-        const { likeLoading, likeData } = this.state
+        const { likeLoading, likeData, collectData, collectLoading } = this.state
         const { MyIcon } = this.props
 
         return (
@@ -65,7 +85,7 @@ export default class ViewLike extends React.Component<ViewLikeProps, ViewLikeSta
                 <div className="view-like-box">
                     <div className="view-like-box-item">
                         <div className="view-like-box-title"><MyIcon type="icon-zan" />点赞
-                                    <Statistic value={likeData.length} />
+                            <Statistic value={likeData.length} />
                         </div>
                         <Spin spinning={likeLoading} indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />}>
                             <div className="view-like-box-data">
@@ -83,11 +103,19 @@ export default class ViewLike extends React.Component<ViewLikeProps, ViewLikeSta
                     </div>
                     <div className="view-like-box-item">
                         <div className="view-like-box-title"><MyIcon type="icon-shoucang1" />收藏
-                                    <Statistic value={0} />
+                            <Statistic value={collectData.length} />
                         </div>
-                        <Spin spinning={false} indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />}>
+                        <Spin spinning={collectLoading} indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />}>
                             <div className="view-like-box-data">
-                                <Empty description="快去收藏吧！" />
+                                {
+                                    collectData.length > 0 ? <ul>{
+                                        collectData.map((element, index) =>
+                                            <Link key={index} to={`/article/${element.id}`}>
+                                                <li title={element.title}>{element.title}</li>
+                                            </Link>)
+                                    }</ul> :
+                                        <Empty description="快去收藏吧！" />
+                                }
                             </div>
                         </Spin>
                     </div>

@@ -18,6 +18,7 @@ import LightDark from '../Components/LightDark/LightDark'
 import Ribbon from '../Components/Ribbon/Ribbon'
 import { Modal } from 'antd';
 import imgURL from '../imgs/passerma-wechat.png';
+import { createKeepLoginTimer } from '../CommonData/keepLogin';
 
 class router extends React.Component {
     constructor(props) {
@@ -39,6 +40,8 @@ class router extends React.Component {
                 if (myJson.ErrCode !== 0) {
                     return
                 }
+                sessionStorage.setItem("Authorization", myJson.data.Authorization)
+                createKeepLoginTimer()
                 // 已登录
                 this.props.dispatch(setLogin(true))
                 this.props.dispatch(setUserInfoName(myJson.data.realname))

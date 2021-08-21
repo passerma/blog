@@ -39,7 +39,7 @@ class Footer extends React.Component {
                     <a href="https://github.com/passerma" rel="noopener noreferrer" target="_blank">
                         <i className="web-font">GitHub: passerma</i>
                     </a>
-                    <a href="https://weibo.com/u/5283669622" rel="noopener noreferrer" target="_blank">
+                    <a href="https://weibo.com/u/7623858925" rel="noopener noreferrer" target="_blank">
                         <i className="web-font">微博: passerma</i>
                     </a>
                     <a href="mailto:admin@passerma.com">

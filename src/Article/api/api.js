@@ -1,4 +1,5 @@
 import { COMMON_URL, FetchData } from '../../CommonData/api'
+import { fetchGo } from '../../CommonData/ApiResult'
 
 /** 
  * 获取博客列表
@@ -197,16 +198,24 @@ export function getClassData(callBack) {
 }
 
 //#region 点赞
-export function getlikeData(id, callBack) {
-    let params = {
-        method: "GET",
+/**
+ * 获取点赞收藏
+ * @param {*} id 
+ */
+export function getlikeData(id) {
+    let fetchObj = {
+        params: {
+            id
+        }
     }
-    let url = `/blog/detail/likeData?id=${id}`
-    FetchData(url, params, (res) => {
-        callBack(res)
-    })
+    return fetchGo('/bloger/article/likeOrCollect', fetchObj)
 }
 
+/**
+ * 点赞
+ * @param {*} id 
+ * @param {*} callBack 
+ */
 export function postlikeData(id, callBack) {
     let params = {
         method: "POST",
@@ -215,5 +224,20 @@ export function postlikeData(id, callBack) {
     FetchData(url, params, (res) => {
         callBack(res)
     })
+}
+
+/**
+ * 收藏
+ * @param {*} id 
+ * @param {*} callBack 
+ */
+export function postCollectData(id) {
+    let fetchObj = {
+        method: "PUT",
+        params: {
+            id
+        }
+    }
+    return fetchGo('/bloger/article/likeOrCollect', fetchObj)
 }
 //#endregion

@@ -61,7 +61,7 @@ class DetailCommentsForm extends React.Component {
             if (!dataReplay[data[i].id]) {
                 dataReplay[data[i].id] = []
             }
-            if (data[i].touser === '') {
+            if (!data[i].touser) {
                 newFirstData.push(data[i])
             } else {
                 if (!dataReplay[data[i].touser]) {
@@ -282,7 +282,7 @@ class DetailCommentsForm extends React.Component {
      * 修改评论
     */
     modifyComments = (id, text, images) => {
-        const imgArr = images.split('-')
+        const imgArr = images ? images.split('-') : []
         let fileList = []
         for (let i = 0; i < imgArr.length; i++) {
             const element = imgArr[i];
@@ -448,7 +448,7 @@ class DetailCommentsForm extends React.Component {
      * 生成图片
      */
     _createImgs = (imgs) => {
-        const imgArr = imgs.split('-')
+        const imgArr = imgs ? imgs.split('-') : []
         let imgsDiv = []
         for (let i = 0; i < imgArr.length; i++) {
             const element = imgArr[i];
@@ -704,7 +704,7 @@ class DetailCommentsForm extends React.Component {
                                                         {
                                                             <InfoDetail id={replayValue.userid}>
                                                                 <img className="detail-comments-img" alt="用户头像"
-                                                                    src={value.img ?
+                                                                    src={replayValue.img ?
                                                                         `${COMMON_URL}/file/get/avatar?avatar=${replayValue.img}` :
                                                                         `${COMMON_URL}/file/get/avatar`} />
                                                                 <span className="detail-comments-title-user">

@@ -1,4 +1,5 @@
 import { FetchData } from '../CommonData/api'
+import { fetchGo } from '../CommonData/ApiResult'
 
 //#region center-info
 /** 
@@ -69,6 +70,15 @@ export const getLikesData = (callBack) => {
     FetchData(url, params, (res) => {
         callBack(res)
     })
+}
+
+/**
+ *  获取收藏
+ * @param {*} id 
+ * @param {*} callBack 
+ */
+export function getCollectData() {
+    return fetchGo('/bloger/center/article/collect', {})
 }
 //#endregion
 

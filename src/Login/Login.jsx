@@ -5,6 +5,8 @@ import { Form, Icon, Input, Button, Checkbox, message, Row, Col, Tooltip } from 
 import { connect } from 'react-redux';
 import { COMMON_URL } from '../CommonData/api';
 import { setLogin, setUserInfoAvatar, setUserInfoName, setUserID, setUserIntroduction } from '../Redux/action';
+import CryptoJS from 'crypto-js'
+import { createKeepLoginTimer } from '../CommonData/keepLogin';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -56,7 +58,7 @@ class LoginForm extends React.Component {
                     })
                     let url = `${COMMON_URL}/user/login`
                     let username = values.username
-                    let password = values.password
+                    let password = CryptoJS.AES.encrypt(values.password, '').toString();
                     let opts = {
                         method: 'POST',
                         credentials: 'include',
@@ -87,6 +89,8 @@ class LoginForm extends React.Component {
                                 return
                             }
                             message.success(`欢迎回来，${myJson.data.realname}`)
+                            sessionStorage.setItem("Authorization", myJson.data.Authorization)
+                            createKeepLoginTimer()
                             this.props.dispatch(setLogin(true))
                             this.props.dispatch(setUserInfoName(myJson.data.realname))
                             this.props.dispatch(setUserInfoAvatar(myJson.data.avatar))
@@ -108,7 +112,7 @@ class LoginForm extends React.Component {
                     })
                     let url = `${COMMON_URL}/user/register`
                     let username = values.usernameReg
-                    let password = values.passwordReg
+                    let password = CryptoJS.AES.encrypt(values.passwordReg, '').toString();
                     let realname = values.realnameReg
                     let code = parseInt(values.code)
                     let opts = {
@@ -287,12 +291,12 @@ class LoginForm extends React.Component {
                                     getFieldDecorator('username', {
                                         rules: [{
                                             required: true,
-                                            message: '请输入邮箱!'
+                                            message: '请输入邮箱邮箱或用户名!'
                                         }],
                                     })(
                                         <Input
                                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                            placeholder="邮箱"
+                                            placeholder="邮箱/用户名"
                                         />,
                                     )}
                             </Form.Item>

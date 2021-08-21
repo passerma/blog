@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import hljs from 'highlight.js';
-import { getDatail, getlikeData, postlikeData } from '../api/api'
+import { getDatail, getlikeData, postlikeData, postCollectData } from '../api/api'
 import { Skeleton, Empty, message, Tag, Anchor, Statistic, Icon } from 'antd';
 import './Detail.less';
 import './AddComments'
@@ -11,6 +11,10 @@ import AddComment from './AddComment'
 
 const MyIcon = Icon.createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_1910007_ojt6gfzurem.js', // 在 iconfont.cn 上生成
+});
+
+const MyIconV2 = Icon.createFromIconfontCN({
+    scriptUrl: '//at.alicdn.com/t/font_2649850_oxm3rvcnv.js', // 在 iconfont.cn 上生成
 });
 
 class FooGuardTestForm extends React.Component {
@@ -31,7 +35,8 @@ class FooGuardTestForm extends React.Component {
             likeNum: 0,
             collectNum: 0,
             isLike: false,
-            isCanLike: false
+            isCanLike: false,
+            isCollect: false
         };
         this.blogText = '';
         this.minLinkNum = 5;
@@ -86,11 +91,12 @@ class FooGuardTestForm extends React.Component {
                 }
             }
         })
-        getlikeData(id, res => {
+        getlikeData(id).then(res => {
             if (res && res.ErrCode === 0) {
                 this.setState({
                     isLike: res.data.isLike,
-                    isCanLike: true
+                    isCanLike: true,
+                    isCollect: res.data.isCollect,
                 })
             }
         })
@@ -221,7 +227,7 @@ class FooGuardTestForm extends React.Component {
      */
     postLike = () => {
         if (!this.state.isCanLike) {
-            message.info('登录后才可以点赞噢!')
+            message.info('请登录后进行操作')
         } else {
             if (this.isLikeLoading) return
             let id = this.props.match.params.id
@@ -232,6 +238,27 @@ class FooGuardTestForm extends React.Component {
                     this.setState({
                         isLike: res.data.isLike,
                         likeNum: res.data.likeNum
+                    })
+                } else {
+                    res && message.error(res.ErrMsg)
+                }
+            })
+        }
+    }
+
+    postCollect = () => {
+        if (!this.state.isCanLike) {
+            message.info('请登录后进行操作')
+        } else {
+            if (this.isLikeLoading) return
+            let id = this.props.match.params.id
+            this.isLikeLoading = true
+            postCollectData(id).then(res => {
+                this.isLikeLoading = false
+                if (res && res.ErrCode === 0) {
+                    this.setState({
+                        isCollect: res.data.isCollect,
+                        collectNum: res.data.collectNum
                     })
                 } else {
                     res && message.error(res.ErrMsg)
@@ -258,7 +285,7 @@ class FooGuardTestForm extends React.Component {
     //#endregion
     render() {
         let { loading, title, createTime, updateTime, commentsLength, noneArticle, articleVisible, look,
-            blogClass, AnchorLink, likeNum, isLike } = this.state
+            blogClass, AnchorLink, likeNum, isLike, collectNum, isCollect } = this.state
 
         let { isLogin, userInfo } = this.props
 
@@ -295,9 +322,11 @@ class FooGuardTestForm extends React.Component {
                                             prefix={isLike ? <Icon type="like" theme="filled" style={{ color: "#1890FF" }} /> :
                                                 <MyIcon type="icon-weizan" />} />
                                     </span>
-                                    {/* <span onClick={() => { message.info('功能暂未开启') }} title="收藏" className="detail-btn-heart">
-                                        <Statistic value={20} prefix={<MyIcon type="icon-weizan" />} />
-                                    </span> */}
+                                    <span onClick={this.postCollect} title={isCollect ? '取消收藏' : '收藏'} className="detail-btn-heart">
+                                        <Statistic value={collectNum}
+                                            prefix={isCollect ? <MyIconV2 type="icon-blog_webxihuan" /> :
+                                                <MyIconV2 type="icon-blog_webshoucang" />} />
+                                    </span>
                                 </div>
                                 <DetailComments onRef={this.onRef} />
                                 {/* <AddComments addCommentsSus={this.addCommentsSus}></AddComments> */}

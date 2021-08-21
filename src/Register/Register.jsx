@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { Form, Icon, Input, Button, message, Row, Col, Tooltip, Card } from 'antd';
 import { connect } from 'react-redux';
 import { COMMON_URL } from '../CommonData/api';
+import CryptoJS from 'crypto-js'
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -41,7 +42,7 @@ class LoginForm extends React.Component {
                 })
                 let url = `${COMMON_URL}/user/register`
                 let username = values.usernameReg
-                let password = values.passwordReg
+                let password = CryptoJS.AES.encrypt(values.passwordReg, '').toString();
                 let realname = values.realnameReg
                 let code = parseInt(values.code)
                 let opts = {
@@ -205,130 +206,130 @@ class LoginForm extends React.Component {
                             }}>关闭当前页</Button>
                         </Card>
                     </Fragment> : <Fragment>
-                            <div className="login-register-title">欢迎您注册「PASSERMA」博客</div>
-                            <Form onSubmit={this.handleSubmit} className="login-form">
-                                <Form.Item className="login-form-realname">
-                                    {
-                                        getFieldDecorator('realnameReg', {
-                                            rules: [{
-                                                required: true,
-                                                message: '请输入用户名!'
-                                            },
-                                            {
-                                                max: 10,
-                                                message: '最大不能超过10个字符!'
-                                            },
-                                            {
-                                                pattern: /^((?!^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$).)*$/,
-                                                message: '用户名不能是邮箱!'
-                                            }],
-                                        })(
-                                            <Input
-                                                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                                placeholder="用户名"
-                                                onBlur={this.getRealname}
-                                                addonAfter={canRealname ? <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" />
-                                                    : <Icon title="用户名已被使用" type="close-circle" theme="twoTone" twoToneColor="red" />}
-                                            />,
-                                        )}
-                                    {
-                                    }
-                                </Form.Item>
-                                <span className="login-from-realname-tip">
-                                    <Tooltip title="用户名设置后无法修改噢">
-                                        <Icon type="warning" theme="twoTone" />
-                                    </Tooltip>
-                                </span>
-                                <Form.Item>
-                                    {
-                                        getFieldDecorator('usernameReg', {
-                                            rules: [{
-                                                required: true,
-                                                message: '请输入邮箱!'
-                                            },
-                                            {
-                                                pattern: /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/,
-                                                message: '请输入正确的邮箱!'
-                                            }],
-                                        })(
-                                            <Input
-                                                prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                                placeholder="邮箱"
-                                            />,
-                                        )}
-                                </Form.Item>
-                                <Form.Item>
-                                    {getFieldDecorator('passwordReg', {
+                        <div className="login-register-title">欢迎您注册「PASSERMA」博客</div>
+                        <Form onSubmit={this.handleSubmit} className="login-form">
+                            <Form.Item className="login-form-realname">
+                                {
+                                    getFieldDecorator('realnameReg', {
                                         rules: [{
                                             required: true,
-                                            message: '请输入密码!'
+                                            message: '请输入用户名!'
                                         },
                                         {
-                                            pattern: /(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/,
-                                            message: '密码至少包含数字和字母!'
+                                            max: 10,
+                                            message: '最大不能超过10个字符!'
                                         },
                                         {
-                                            min: 6,
-                                            message: '密码长度需在6-20位!'
-                                        },
-                                        {
-                                            max: 20,
-                                            message: '密码长度需在6-20位!'
+                                            pattern: /^((?!^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$).)*$/,
+                                            message: '用户名不能是邮箱!'
                                         }],
                                     })(
-                                        <Input.Password
-                                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                            type="password"
-                                            placeholder="密码"
-                                            visibilityToggle
+                                        <Input
+                                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                            placeholder="用户名"
+                                            onBlur={this.getRealname}
+                                            addonAfter={canRealname ? <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" />
+                                                : <Icon title="用户名已被使用" type="close-circle" theme="twoTone" twoToneColor="red" />}
                                         />,
                                     )}
-                                </Form.Item>
-                                <Form.Item>
-                                    {getFieldDecorator('passwordRegCom', {
+                                {
+                                }
+                            </Form.Item>
+                            <span className="login-from-realname-tip">
+                                <Tooltip title="用户名设置后无法修改噢">
+                                    <Icon type="warning" theme="twoTone" />
+                                </Tooltip>
+                            </span>
+                            <Form.Item>
+                                {
+                                    getFieldDecorator('usernameReg', {
                                         rules: [{
-                                            validator: (rule, value, callback) => {
-                                                if (value === this.props.form.getFieldValue('passwordReg')) {
-                                                    callback()
-                                                } else {
-                                                    callback('两次密码输入不一样!')
-                                                }
-                                            }
+                                            required: true,
+                                            message: '请输入邮箱!'
+                                        },
+                                        {
+                                            pattern: /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/,
+                                            message: '请输入正确的邮箱!'
                                         }],
                                     })(
-                                        <Input.Password
-                                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                            type="password"
-                                            placeholder="再次输入密码"
+                                        <Input
+                                            prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                            placeholder="邮箱"
                                         />,
                                     )}
-                                </Form.Item>
-                                <Form.Item>
-                                    <Row>
-                                        <Col span={12}>
-                                            {getFieldDecorator('code', {
-                                                rules: [{
-                                                    required: true,
-                                                    message: '请输入验证码!'
-                                                }],
-                                            })(<Input
-                                                prefix={<Icon type="safety" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                                placeholder="验证码"
-                                            />)}
-                                        </Col>
-                                        <Col span={12}>
-                                            <Button disabled={this.codeTime === null ? false : true} onClick={this.getCode}>{btnText}</Button>
-                                        </Col>
-                                    </Row>
-                                </Form.Item>
-                                <Form.Item style={{ textAlign: 'center' }}>
-                                    <Button loading={loading}
-                                        type="primary"
-                                        htmlType="submit"
-                                        className="login-form-button">注册</Button>
-                                </Form.Item>
-                            </Form>
-                        </Fragment>
+                            </Form.Item>
+                            <Form.Item>
+                                {getFieldDecorator('passwordReg', {
+                                    rules: [{
+                                        required: true,
+                                        message: '请输入密码!'
+                                    },
+                                    {
+                                        pattern: /(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/,
+                                        message: '密码至少包含数字和字母!'
+                                    },
+                                    {
+                                        min: 6,
+                                        message: '密码长度需在6-20位!'
+                                    },
+                                    {
+                                        max: 20,
+                                        message: '密码长度需在6-20位!'
+                                    }],
+                                })(
+                                    <Input.Password
+                                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                        type="password"
+                                        placeholder="密码"
+                                        visibilityToggle
+                                    />,
+                                )}
+                            </Form.Item>
+                            <Form.Item>
+                                {getFieldDecorator('passwordRegCom', {
+                                    rules: [{
+                                        validator: (rule, value, callback) => {
+                                            if (value === this.props.form.getFieldValue('passwordReg')) {
+                                                callback()
+                                            } else {
+                                                callback('两次密码输入不一样!')
+                                            }
+                                        }
+                                    }],
+                                })(
+                                    <Input.Password
+                                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                        type="password"
+                                        placeholder="再次输入密码"
+                                    />,
+                                )}
+                            </Form.Item>
+                            <Form.Item>
+                                <Row>
+                                    <Col span={12}>
+                                        {getFieldDecorator('code', {
+                                            rules: [{
+                                                required: true,
+                                                message: '请输入验证码!'
+                                            }],
+                                        })(<Input
+                                            prefix={<Icon type="safety" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                            placeholder="验证码"
+                                        />)}
+                                    </Col>
+                                    <Col span={12}>
+                                        <Button disabled={this.codeTime === null ? false : true} onClick={this.getCode}>{btnText}</Button>
+                                    </Col>
+                                </Row>
+                            </Form.Item>
+                            <Form.Item style={{ textAlign: 'center' }}>
+                                <Button loading={loading}
+                                    type="primary"
+                                    htmlType="submit"
+                                    className="login-form-button">注册</Button>
+                            </Form.Item>
+                        </Form>
+                    </Fragment>
                 }
             </div>
         );

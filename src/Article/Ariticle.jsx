@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom"
-import { Skeleton, message, Input, Empty, Tag, Select, Badge, Icon, Divider } from 'antd';
+import { Skeleton, message, Input, Empty, Tag, Select, Badge, Icon, Divider, BackTop } from 'antd';
 import { getList, getTopArticle, getClassData } from './api/api';
 import './Ariticle.less';
 
@@ -417,7 +417,7 @@ export default class Article extends React.Component {
                                                 <Link className="article-btn-link" to={`/article/${value.id}`}>
                                                     <button className="article-btn">继续阅读</button>
                                                 </Link>
-                                                <div style={{ display: 'inline-block', width: '150px' }}>
+                                                <div style={{ display: 'inline-block', width: '175px' }}>
                                                     <span style={{ marginLeft: '20px' }} className="article-msg-span">阅读 ({value.look})</span>
                                                     <span style={{ margin: '0 8px' }}>·</span>
                                                     <span className="article-msg-span">评论 ({value.commentNum})</span>
@@ -429,6 +429,7 @@ export default class Article extends React.Component {
                         </Skeleton>
                     </ul>
                 </div>
+                <BackTop target={() => document.querySelector('.article')} />
             </div>
         )
     }

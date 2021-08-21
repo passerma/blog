@@ -10,6 +10,7 @@ import AvatarImg from './AvatarImg'
 import CenterView from './CenterView'
 import CenterInfo from './CenterInfo'
 import CenterSet from './CenterSet'
+import { clearKeepLoginTimer } from '../CommonData/keepLogin';
 
 const MyIcon = Icon.createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_1692441_hiyv2tk0c8h.js', // 在 iconfont.cn 上生成
@@ -41,6 +42,8 @@ class Center extends React.Component {
                     return
                 }
                 message.success(myJson.ErrMsg)
+                sessionStorage.removeItem("Authorization")
+                clearKeepLoginTimer()
                 this.props.dispatch(setLogin(false))
                 this.props.dispatch(setUserInfoName(''))
                 this.props.dispatch(setUserInfoAvatar(''))
